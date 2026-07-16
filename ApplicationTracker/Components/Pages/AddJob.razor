@@ -1,0 +1,89 @@
+﻿@page "/jobs/add"
+@rendermode InteractiveServer
+
+@using ApplicationTracker.Models
+@using ApplicationTracker.Services
+
+@inject JobService JobService
+
+<PageTitle>Dodaj aplikację</PageTitle>
+
+<h1>Dodaj aplikację</h1>
+
+<EditForm Model="job" FormName="AddJobForm" OnValidSubmit="SaveJob">
+
+    <div>
+        <label>Firma</label>
+        <InputText @bind-Value="job.Company" />
+    </div>
+
+    <div>
+        <label>Stanowisko</label>
+        <InputText @bind-Value="job.Position" />
+    </div>
+
+    <div>
+        <label>Lokalizacja</label>
+        <InputText @bind-Value="job.Location" />
+    </div>
+
+    <div>
+        <label>Tryb pracy</label>
+        <InputSelect @bind-Value="job.WorkMode">
+            @foreach (var mode in Enum.GetValues<WorkMode>())
+            {
+                <option value="@mode">@mode</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div>
+        <label>Od wynagrodzenia</label>
+        <InputNumber @bind-Value="job.SalaryFrom" />
+    </div>
+
+    <div>
+        <label>Do wynagrodzenia</label>
+        <InputNumber @bind-Value="job.SalaryTo" />
+    </div>
+
+    <div>
+        <label>Link</label>
+        <InputText @bind-Value="job.Url" />
+    </div>
+
+    <div>
+        <label>Notatki</label>
+        <InputTextArea @bind-Value="job.Notes" />
+    </div>
+
+    <button type="submit">
+        Zapisz
+    </button>
+
+</EditForm>
+
+
+@code {
+
+    private JobApplication job = new()
+    {
+        ApplicationDate = DateOnly.FromDateTime(DateTime.Today),
+        Status = ApplicationStatus.Applied,
+        WorkMode = WorkMode.Remote
+    };
+
+
+    private async Task SaveJob()
+    {
+        await JobService.AddAsync(job);
+
+        job = new JobApplication
+        {
+            ApplicationDate = DateOnly.FromDateTime(DateTime.Today),
+            Status = ApplicationStatus.Applied,
+            WorkMode = WorkMode.Remote
+        };
+    }
+
+}

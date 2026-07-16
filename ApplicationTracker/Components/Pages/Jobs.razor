@@ -1,0 +1,78 @@
+﻿@page "/jobs"
+
+@rendermode InteractiveServer
+
+@using ApplicationTracker.Models
+@using ApplicationTracker.Services
+
+@inject JobService JobService
+
+<PageTitle>Aplikacje</PageTitle>
+
+<h1>Moje aplikacje</h1>
+
+@if (jobs == null)
+{
+    <p>Ładowanie...</p>
+}
+else if (!jobs.Any())
+{
+    <p>Brak aplikacji.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Firma</th>
+                <th>Stanowisko</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Tryb</th>
+                <th>Widełki</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var job in jobs)
+            {
+                <tr>
+                    <td>@job.Company</td>
+                    <td>@job.Position</td>
+                    <td>@job.ApplicationDate</td>
+                    <td>@job.Status</td>
+                    <td>@job.WorkMode</td>
+                    <td>
+                        <a href="/jobs/edit/@job.Id">
+                            Edytuj
+                        </a>
+
+                        <button @onclick="() => DeleteJob(job.Id)">
+                            Usuń
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    private List<JobApplication>? jobs;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        jobs = await JobService.GetAllAsync();
+    }
+    private async Task DeleteJob(Guid id)
+    {
+        await JobService.DeleteAsync(id);
+
+        jobs = await JobService.GetAllAsync();
+    }
+
+}

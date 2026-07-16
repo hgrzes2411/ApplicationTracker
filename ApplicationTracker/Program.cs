@@ -1,6 +1,9 @@
 using ApplicationTracker.Components;
+using ApplicationTracker.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<JsonRepository>();
+builder.Services.AddSingleton<JobService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

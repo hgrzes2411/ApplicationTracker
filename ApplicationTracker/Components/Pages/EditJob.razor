@@ -1,0 +1,99 @@
+﻿@page "/jobs/edit/{Id:guid}"
+
+@rendermode InteractiveServer
+
+@using ApplicationTracker.Models
+@using ApplicationTracker.Services
+
+@inject JobService JobService
+@inject NavigationManager Navigation
+
+
+<PageTitle>Edycja aplikacji</PageTitle>
+
+<h1>Edycja aplikacji</h1>
+
+@if (job == null)
+{
+    <p>Ładowanie...</p>
+}
+else
+{
+    <EditForm Model="job" FormName="EditJobForm" OnValidSubmit="Save">
+
+        <div>
+            <label>Firma</label>
+            <InputText @bind-Value="job.Company" />
+        </div>
+
+        <div>
+            <label>Stanowisko</label>
+            <InputText @bind-Value="job.Position" />
+        </div>
+
+        <div>
+            <label>Lokalizacja</label>
+            <InputText @bind-Value="job.Location" />
+        </div>
+
+        <div>
+            <label>Status</label>
+            <InputSelect @bind-Value="job.Status">
+                @foreach (var status in Enum.GetValues<ApplicationStatus>())
+                {
+                    <option value="@status">@status</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div>
+            <label>Tryb pracy</label>
+            <InputSelect @bind-Value="job.WorkMode">
+                @foreach (var mode in Enum.GetValues<WorkMode>())
+                {
+                    <option value="@mode">@mode</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div>
+            <label>Notatki</label>
+            <InputTextArea @bind-Value="job.Notes" />
+        </div>
+
+        <button type="submit">
+            Zapisz zmiany
+        </button>
+
+    </EditForm>
+}
+
+
+@code {
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private JobApplication? job;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var jobs = await JobService.GetAllAsync();
+
+        job = jobs.FirstOrDefault(x => x.Id == Id);
+    }
+
+
+    private async Task Save()
+    {
+        if (job == null)
+        {
+            return;
+        }
+
+        await JobService.UpdateAsync(job);
+
+        Navigation.NavigateTo("/jobs");
+    }
+}
