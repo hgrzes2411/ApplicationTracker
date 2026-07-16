@@ -19,47 +19,116 @@
 }
 else
 {
-    <EditForm Model="job" FormName="EditJobForm" OnValidSubmit="Save">
+    <h3>Historia statusów</h3>
+
+    @if (job.History.Any())
+    {
+        <ul>
+            @foreach (var item in job.History.OrderBy(x => x.Date))
+            {
+                <li>
+                    <strong>@item.Date</strong> - @item.Status
+
+                    @if (!string.IsNullOrWhiteSpace(item.Note))
+                    {
+                        <span> (@item.Note)</span>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Brak historii.</p>
+    }
+
+
+    <h4>Dodaj nowy status</h4>
+
+    <InputSelect @bind-Value="newStatus.Status">
+        @foreach (var status in Enum.GetValues<ApplicationStatus>())
+        {
+            <option value="@status">@status</option>
+        }
+    </InputSelect>
+
+    <InputDate @bind-Value="newStatus.Date" />
+
+    <InputText @bind-Value="newStatus.Note"
+               placeholder="Notatka (opcjonalnie)" />
+
+    <button type="button"
+            @onclick="AddStatus">
+        Dodaj status
+    </button>
+
+
+    <hr />
+
+
+    <EditForm Model="job"
+              FormName="EditJobForm"
+              OnValidSubmit="Save">
 
         <div>
             <label>Firma</label>
             <InputText @bind-Value="job.Company" />
         </div>
 
+
         <div>
             <label>Stanowisko</label>
             <InputText @bind-Value="job.Position" />
         </div>
+
 
         <div>
             <label>Lokalizacja</label>
             <InputText @bind-Value="job.Location" />
         </div>
 
-        <div>
-            <label>Status</label>
-            <InputSelect @bind-Value="job.Status">
-                @foreach (var status in Enum.GetValues<ApplicationStatus>())
-                {
-                    <option value="@status">@status</option>
-                }
-            </InputSelect>
-        </div>
 
         <div>
             <label>Tryb pracy</label>
+
             <InputSelect @bind-Value="job.WorkMode">
                 @foreach (var mode in Enum.GetValues<WorkMode>())
                 {
-                    <option value="@mode">@mode</option>
+                    <option value="@mode">
+                        @mode
+                    </option>
                 }
             </InputSelect>
         </div>
 
+
+        <div>
+            <label>Widełki od</label>
+
+            <InputNumber @bind-Value="job.SalaryFrom" />
+        </div>
+
+
+        <div>
+            <label>Widełki do</label>
+
+            <InputNumber @bind-Value="job.SalaryTo" />
+        </div>
+
+
+        <div>
+            <label>Link</label>
+
+            <InputText @bind-Value="job.Url" />
+        </div>
+
+
         <div>
             <label>Notatki</label>
+
             <InputTextArea @bind-Value="job.Notes" />
         </div>
+
 
         <button type="submit">
             Zapisz zmiany
@@ -74,7 +143,14 @@ else
     [Parameter]
     public Guid Id { get; set; }
 
+
     private JobApplication? job;
+
+
+    private StatusHistory newStatus = new()
+    {
+        Date = DateOnly.FromDateTime(DateTime.Today)
+    };
 
 
     protected override async Task OnInitializedAsync()
@@ -85,12 +161,37 @@ else
     }
 
 
+    private void AddStatus()
+    {
+        if (job == null)
+        {
+            return;
+        }
+
+        job.History.Add(new StatusHistory
+        {
+            Status = newStatus.Status,
+            Date = newStatus.Date,
+            Note = newStatus.Note
+        });
+
+        newStatus = new StatusHistory
+        {
+            Date = DateOnly.FromDateTime(DateTime.Today)
+        };
+    }
+
+
     private async Task Save()
     {
         if (job == null)
         {
             return;
         }
+
+        job.History = job.History
+            .OrderBy(x => x.Date)
+            .ToList();
 
         await JobService.UpdateAsync(job);
 

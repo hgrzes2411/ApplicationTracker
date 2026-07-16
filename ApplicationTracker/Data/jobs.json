@@ -1,14 +1,22 @@
 [
   {
-    "Id": "cce18d14-180f-443a-ad5c-76c305964e41",
+    "Id": "528ef13d-be05-4a49-b5e0-caa5483e0628",
     "Company": "Microsoft",
     "Position": "Junior .NET Developer",
     "Location": "Warszawa, Mokotów",
-    "WorkMode": 2,
+    "WorkMode": 1,
     "SalaryFrom": null,
     "SalaryTo": null,
     "ApplicationDate": "2026-07-16",
-    "Status": 2,
+    "Status": 0,
+    "History": [
+      {
+        "Status": 0,
+        "Date": "2026-07-16",
+        "Note": null
+      }
+    ],
+    "CurrentStatus": 0,
     "Url": null,
     "Notes": null
   }

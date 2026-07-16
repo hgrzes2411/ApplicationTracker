@@ -44,7 +44,7 @@ namespace ApplicationTracker.Services
                 await _repository.SaveAsync(jobs);
             }
         }
-         public async Task UpdateAsync(JobApplication updatedJob)
+        public async Task UpdateAsync(JobApplication updatedJob)
         {
             var jobs = await _repository.GetAllAsync();
 
@@ -55,16 +55,7 @@ namespace ApplicationTracker.Services
                 return;
             }
 
-            existingJob.Company = updatedJob.Company;
-            existingJob.Position = updatedJob.Position;
-            existingJob.Location = updatedJob.Location;
-            existingJob.WorkMode = updatedJob.WorkMode;
-            existingJob.SalaryFrom = updatedJob.SalaryFrom;
-            existingJob.SalaryTo = updatedJob.SalaryTo;
-            existingJob.ApplicationDate = updatedJob.ApplicationDate;
-            existingJob.Status = updatedJob.Status;
-            existingJob.Url = updatedJob.Url;
-            existingJob.Notes = updatedJob.Notes;
+            existingJob.UpdateFrom(updatedJob);
 
             await _repository.SaveAsync(jobs);
         }

@@ -69,19 +69,23 @@
     private JobApplication job = new()
     {
         ApplicationDate = DateOnly.FromDateTime(DateTime.Today),
-        Status = ApplicationStatus.Applied,
         WorkMode = WorkMode.Remote
     };
 
 
     private async Task SaveJob()
     {
+        job.History.Add(new StatusHistory
+        {
+            Status = ApplicationStatus.Applied,
+            Date = job.ApplicationDate
+        });
+
         await JobService.AddAsync(job);
 
         job = new JobApplication
         {
             ApplicationDate = DateOnly.FromDateTime(DateTime.Today),
-            Status = ApplicationStatus.Applied,
             WorkMode = WorkMode.Remote
         };
     }
