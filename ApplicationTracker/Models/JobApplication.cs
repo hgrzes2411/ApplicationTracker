@@ -6,6 +6,9 @@
 
         public string Company { get; set; } = "";
 
+        public string NormalizedCompany =>
+        Company.Trim().ToLower();
+
         public string Position { get; set; } = "";
 
         public string? Location { get; set; }
@@ -22,6 +25,8 @@
         public ApplicationStatus Status { get; set; }
 
         public string? Source { get; set; }
+
+        public string? ExternalJobId { get; set; }
 
         public List<StatusHistory> History { get; set; } = [];
 

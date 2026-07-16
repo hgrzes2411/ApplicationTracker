@@ -4,8 +4,10 @@
 
 @using ApplicationTracker.Models
 @using ApplicationTracker.Services
+@using ApplicationTracker.Services.GhostDetection
 
 @inject JobService JobService
+@inject GhostDetector GhostDetector
 
 <PageTitle>Aplikacje</PageTitle>
 
@@ -30,6 +32,8 @@ else
                 <th>Status</th>
                 <th>Tryb</th>
                 <th>Widełki</th>
+                <th>Ghost Score</th>
+                <th>Ryzyko</th>
                 <th>Akcje</th>
             </tr>
         </thead>
@@ -37,12 +41,19 @@ else
         <tbody>
             @foreach (var job in jobs)
             {
+                var analysis = GhostDetector.Analyze(job, jobs);
                 <tr>
                     <td>@job.Company</td>
                     <td>@job.Position</td>
                     <td>@job.ApplicationDate</td>
                     <td>@job.CurrentStatus</td>
                     <td>@job.WorkMode</td>
+                     <td>
+                     @analysis.Score
+                     </td>
+                     <td>
+                     @analysis.RiskLevel
+                     </td>
                     <td>
                         <a href="/jobs/edit/@job.Id">
                             Edytuj
