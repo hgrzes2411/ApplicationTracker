@@ -1,7 +1,7 @@
 ﻿using ApplicationTracker.Models;
 using ApplicationTracker.Models.Analysis;
 
-namespace ApplicationTracker.Services.GhostDetection;
+namespace ApplicationTracker.Services;
 
 public class GhostDetector
 {

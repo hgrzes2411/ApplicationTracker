@@ -1,6 +1,5 @@
 ﻿using ApplicationTracker.Models;
 using ApplicationTracker.Models.Statistics;
-using ApplicationTracker.Services.GhostDetection;
 
 namespace ApplicationTracker.Services.Statistics;
 

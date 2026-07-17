@@ -1,6 +1,6 @@
 ﻿using ApplicationTracker.Models;
 
-namespace ApplicationTracker.Models.Analysis;
+namespace ApplicationTracker.Services;
 
 public class GhostAnalysisContext
 {

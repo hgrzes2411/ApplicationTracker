@@ -1,5 +1,4 @@
 ﻿using ApplicationTracker.Models;
-using ApplicationTracker.Models.Analysis;
 
 namespace ApplicationTracker.Services;
 

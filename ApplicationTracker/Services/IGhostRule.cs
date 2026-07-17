@@ -1,6 +1,4 @@
-﻿using ApplicationTracker.Models.Analysis;
-
-namespace ApplicationTracker.Services.GhostDetection;
+﻿namespace ApplicationTracker.Services;
 
 public interface IGhostRule
 {

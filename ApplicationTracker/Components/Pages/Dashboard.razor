@@ -1,5 +1,122 @@
-﻿<h3>Dashboard</h3>
+﻿@page "/dashboard"
 
-@code {
+@rendermode InteractiveServer
 
+@using ApplicationTracker.Models.Dashboard
+@using ApplicationTracker.Services.Dashboard
+
+@inject DashboardService DashboardService
+
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Dashboard</h1>
+
+@if (dashboard == null)
+{
+    <p>Ładowanie...</p>
+}
+else
+{
+    <h2>Podsumowanie</h2>
+
+    <ul>
+        <li>
+            Łącznie aplikacji:
+            @dashboard.Summary.TotalApplications
+        </li>
+
+        <li>
+            Aktywne:
+            @dashboard.Summary.ActiveApplications
+        </li>
+
+        <li>
+            Interview:
+            @dashboard.Summary.InterviewCount
+        </li>
+
+        <li>
+            Oferty:
+            @dashboard.Summary.OfferCount
+        </li>
+
+        <li>
+            Odrzucone:
+            @dashboard.Summary.RejectedCount
+        </li>
+
+        <li>
+            Ghost Jobs:
+            @dashboard.Summary.GhostApplications
+        </li>
+    </ul>
+
+
+    <hr />
+
+
+    <h2>Najbardziej podejrzane firmy</h2>
+
+    @if (dashboard.TopCompanies != null &&
+         dashboard.TopCompanies.Any())
+    {
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Firma</th>
+                    <th>Aplikacje</th>
+                    <th>Średni Ghost Score</th>
+                    <th>Interview</th>
+                    <th>Oferty</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var company in dashboard.TopCompanies.Take(10))
+                {
+                    <tr>
+                        <td>
+                            @company.Company
+                        </td>
+
+                        <td>
+                            @company.Applications
+                        </td>
+
+                        <td>
+                            @company.AverageGhostScore.ToString("F1")
+                        </td>
+
+                        <td>
+                            @company.InterviewCount
+                        </td>
+
+                        <td>
+                            @company.OfferCount
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <p>Brak danych firm.</p>
+    }
+}
+
+
+@code
+{
+    private DashboardModel? dashboard;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        dashboard = await DashboardService.GetDashboardAsync();
+    }
 }

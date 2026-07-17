@@ -1,4 +1,4 @@
-﻿namespace ApplicationTracker.Models.Analysis;
+﻿namespace ApplicationTracker.Services;
 
 public class GhostRuleResult
 {

@@ -1,6 +1,6 @@
 ﻿using ApplicationTracker.Models;
 
-namespace ApplicationTracker.Services
+namespace ApplicationTracker.Services.Jobs
 {
 
     public class JobService

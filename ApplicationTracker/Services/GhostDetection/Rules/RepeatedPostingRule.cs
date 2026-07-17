@@ -1,6 +1,4 @@
-﻿using ApplicationTracker.Models.Analysis;
-
-namespace ApplicationTracker.Services.GhostDetection.Rules;
+﻿namespace ApplicationTracker.Services.GhostDetection.Rules;
 
 public class RepeatedPostingRule : IGhostRule
 {

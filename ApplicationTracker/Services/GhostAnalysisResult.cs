@@ -1,4 +1,6 @@
-﻿namespace ApplicationTracker.Models.Analysis;
+﻿using ApplicationTracker.Models.Analysis;
+
+namespace ApplicationTracker.Services;
 
 public class GhostAnalysisResult
 {
