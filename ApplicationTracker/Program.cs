@@ -2,6 +2,7 @@ using ApplicationTracker.Components;
 using ApplicationTracker.Services;
 using ApplicationTracker.Services.GhostDetection;
 using ApplicationTracker.Services.GhostDetection.Rules;
+using ApplicationTracker.Services.Statistics;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<JsonRepository>();
@@ -11,6 +12,7 @@ builder.Services.AddSingleton<GhostDetector>();
 builder.Services.AddSingleton<IGhostRule, CompanyHistoryRule>();
 builder.Services.AddSingleton<IGhostRule, NoResponseRule>();
 builder.Services.AddSingleton<IGhostRule, RepeatedPostingRule>();
+builder.Services.AddSingleton<JobStatisticsService>();
 
 
 // Add services to the container.

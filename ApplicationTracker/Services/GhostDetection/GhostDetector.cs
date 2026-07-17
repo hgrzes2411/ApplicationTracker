@@ -49,8 +49,26 @@ public class GhostDetector
             >= 40 => GhostRiskLevel.Medium,
             _ => GhostRiskLevel.Low
         };
+        result.Summary = BuildSummary(result);
 
 
         return result;
+    }
+
+    private static string BuildSummary(GhostAnalysisResult result)
+    {
+        return result.RiskLevel switch
+        {
+            GhostRiskLevel.Low =>
+                "Niskie ryzyko ghost joba.",
+
+            GhostRiskLevel.Medium =>
+                "Średnie ryzyko ghost joba.",
+
+            GhostRiskLevel.High =>
+                "Wysokie ryzyko ghost joba.",
+
+            _ => ""
+        };
     }
 }

@@ -16,5 +16,7 @@ public class GhostAnalysisResult
 
     public int DaysWithoutResponse { get; set; }
 
+    public string Summary { get; set; } = "";
+
     public List<GhostRuleResult> Rules { get; set; } = [];
 }

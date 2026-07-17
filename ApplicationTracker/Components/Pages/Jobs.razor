@@ -51,6 +51,21 @@ else
                      <td>
                      @analysis.Score
                      </td>
+                    <td>
+                        <div>
+                            <strong>Powody:</strong>
+
+                            <ul>
+                                @foreach (var rule in analysis.Rules.Where(r => r.Triggered))
+                                {
+                                    <li>
+                                        @rule.Description
+                                        (@rule.Score)
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </td>
                      <td>
                      @analysis.RiskLevel
                      </td>
