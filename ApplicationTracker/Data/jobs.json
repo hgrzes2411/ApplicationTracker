@@ -2,6 +2,7 @@
   {
     "Id": "528ef13d-be05-4a49-b5e0-caa5483e0628",
     "Company": "Microsoft",
+    "NormalizedCompany": "microsoft",
     "Position": "Junior .NET Developer",
     "Location": "Warszawa, Mokotów",
     "WorkMode": 1,
@@ -9,14 +10,21 @@
     "SalaryTo": null,
     "ApplicationDate": "2026-07-16",
     "Status": 0,
+    "Source": null,
+    "ExternalJobId": null,
     "History": [
       {
         "Status": 0,
         "Date": "2026-07-16",
         "Note": null
+      },
+      {
+        "Status": 2,
+        "Date": "2026-07-17",
+        "Note": null
       }
     ],
-    "CurrentStatus": 0,
+    "CurrentStatus": 2,
     "Url": null,
     "Notes": null
   }

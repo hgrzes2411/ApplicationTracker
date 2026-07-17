@@ -10,6 +10,7 @@ builder.Services.AddSingleton<GhostJobAnalyzer>();
 builder.Services.AddSingleton<GhostDetector>();
 builder.Services.AddSingleton<IGhostRule, CompanyHistoryRule>();
 builder.Services.AddSingleton<IGhostRule, NoResponseRule>();
+builder.Services.AddSingleton<IGhostRule, RepeatedPostingRule>();
 
 
 // Add services to the container.
