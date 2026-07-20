@@ -26,6 +26,8 @@ public class DashboardService
             .Select(job => _ghostDetector.Analyze(job, jobs))
             .ToList();
 
+        var recommendations = CalculateRecommendations(jobs);
+
         var companies = CalculateCompanies(jobs);
 
         var activity = CalculateRecentActivity(jobs);
@@ -51,9 +53,12 @@ public class DashboardService
                 GhostApplications = analyses.Count(x => x.IsGhost)
             },
 
-            TopCompanies = companies,
+            CompanyAnalytics = new CompanyAnalyticsDashboardModel
+            {
+                TopCompanies = companies,
 
-            MostSuspiciousCompany = companies.FirstOrDefault(),
+                MostSuspiciousCompany = companies.FirstOrDefault()
+            },
 
             RecentActivity = activity
 
@@ -110,5 +115,49 @@ public class DashboardService
             .OrderByDescending(x => x.Date)
             .Take(10)
             .ToList();
+    }
+
+    private RecommendationDashboardModel CalculateRecommendations(
+    IReadOnlyCollection<JobApplication> jobs)
+    {
+        var items = jobs
+            .Select(job =>
+            {
+                var analysis = _ghostDetector.Analyze(job, jobs);
+
+                var recommendation = new RecommendationItemModel
+                {
+                    Company = job.Company,
+                    GhostScore = analysis.Score
+                };
+
+                if (analysis.Score >= 70)
+                {
+                    recommendation.Level = RecommendationLevel.Critical;
+                    recommendation.Message =
+                        "Duże prawdopodobieństwo ghostingu. Rozważ zakończenie procesu.";
+                }
+                else if (analysis.Score >= 40)
+                {
+                    recommendation.Level = RecommendationLevel.Warning;
+                    recommendation.Message =
+                        "Proces wygląda podejrzanie. Warto jeszcze chwilę obserwować.";
+                }
+                else
+                {
+                    recommendation.Level = RecommendationLevel.Info;
+                    recommendation.Message =
+                        "Proces wygląda prawidłowo.";
+                }
+
+                return recommendation;
+            })
+            .OrderByDescending(x => x.GhostScore)
+            .ToList();
+
+        return new RecommendationDashboardModel
+        {
+            Items = items
+        };
     }
 }

@@ -57,8 +57,8 @@ else
 
     <h2>Najbardziej podejrzane firmy</h2>
 
-    @if (dashboard.TopCompanies != null &&
-         dashboard.TopCompanies.Any())
+    @if (dashboard.CompanyAnalytics.TopCompanies != null &&
+         dashboard.CompanyAnalytics.TopCompanies.Any())
     {
         <table>
 
@@ -74,7 +74,7 @@ else
 
             <tbody>
 
-                @foreach (var company in dashboard.TopCompanies.Take(10))
+                @foreach (var company in dashboard.CompanyAnalytics.TopCompanies.Take(10))
                 {
                     <tr>
                         <td>
