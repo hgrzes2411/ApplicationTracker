@@ -34,6 +34,8 @@ public class DashboardService
 
         var responseAnalytics = CalculateResponseAnalytics(jobs);
 
+        var recentActivity = CalculateRecentActivity(jobs);
+
         return new DashboardModel
         {
             Summary = new SummaryDashboardModel
@@ -65,6 +67,10 @@ public class DashboardService
             Recommendations = recommendations,
 
             ResponseAnalytics = responseAnalytics,
+
+            RecentActivity = recentActivity
+
+
 
         };
 
@@ -107,15 +113,14 @@ public class DashboardService
     IReadOnlyCollection<JobApplication> jobs)
     {
         return jobs
-            .SelectMany(job =>
-                job.History.Select(history =>
-                    new ActivityDashboardModel
-                    {
-                        Company = job.Company,
-                        Status = history.Status,
-                        Date = history.Date,
-                        Note = history.Note
-                    }))
+            .SelectMany(job => job.History.Select(history =>
+                new ActivityDashboardModel
+                {
+                    Company = job.Company,
+                    Status = history.Status,
+                    Date = history.Date,
+                    Note = history.Note
+                }))
             .OrderByDescending(x => x.Date)
             .Take(10)
             .ToList();
@@ -215,4 +220,6 @@ public class DashboardService
                 : 0
         };
     }
+
+
 }
