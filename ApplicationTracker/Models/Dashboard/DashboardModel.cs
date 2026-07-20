@@ -7,4 +7,6 @@ public class DashboardModel
     public List<CompanyDashboardModel> TopCompanies { get; set; } = [];
 
     public CompanyDashboardModel? MostSuspiciousCompany { get; set; }
+
+    public List<ActivityDashboardModel> RecentActivity { get; set; } = [];
 }

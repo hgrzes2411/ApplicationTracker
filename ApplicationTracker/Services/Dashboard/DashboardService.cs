@@ -28,6 +28,8 @@ public class DashboardService
 
         var companies = CalculateCompanies(jobs);
 
+        var activity = CalculateRecentActivity(jobs);
+
         return new DashboardModel
         {
             Summary = new SummaryDashboardModel
@@ -51,8 +53,12 @@ public class DashboardService
 
             TopCompanies = companies,
 
-            MostSuspiciousCompany = companies.FirstOrDefault()
+            MostSuspiciousCompany = companies.FirstOrDefault(),
+
+            RecentActivity = activity
+
         };
+
     }
 
     private List<CompanyDashboardModel> CalculateCompanies(
@@ -85,6 +91,24 @@ public class DashboardService
             })
             .OrderByDescending(c => c.AverageGhostScore)
             .ThenByDescending(c => c.Applications)
+            .ToList();
+    }
+
+    private List<ActivityDashboardModel> CalculateRecentActivity(
+    IReadOnlyCollection<JobApplication> jobs)
+    {
+        return jobs
+            .SelectMany(job =>
+                job.History.Select(history =>
+                    new ActivityDashboardModel
+                    {
+                        Company = job.Company,
+                        Status = history.Status,
+                        Date = history.Date,
+                        Note = history.Note
+                    }))
+            .OrderByDescending(x => x.Date)
+            .Take(10)
             .ToList();
     }
 }
