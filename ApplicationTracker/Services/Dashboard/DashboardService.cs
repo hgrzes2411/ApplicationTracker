@@ -60,7 +60,9 @@ public class DashboardService
                 MostSuspiciousCompany = companies.FirstOrDefault()
             },
 
-            RecentActivity = activity
+            RecentActivity = activity,
+
+            Recommendations = recommendations
 
         };
 
@@ -118,7 +120,7 @@ public class DashboardService
     }
 
     private RecommendationDashboardModel CalculateRecommendations(
-    IReadOnlyCollection<JobApplication> jobs)
+     IReadOnlyCollection<JobApplication> jobs)
     {
         var items = jobs
             .Select(job =>
@@ -134,18 +136,21 @@ public class DashboardService
                 if (analysis.Score >= 70)
                 {
                     recommendation.Level = RecommendationLevel.Critical;
+
                     recommendation.Message =
-                        "Duże prawdopodobieństwo ghostingu. Rozważ zakończenie procesu.";
+                        "Wysokie ryzyko ghostingu. Rozważ zakończenie procesu.";
                 }
                 else if (analysis.Score >= 40)
                 {
                     recommendation.Level = RecommendationLevel.Warning;
+
                     recommendation.Message =
-                        "Proces wygląda podejrzanie. Warto jeszcze chwilę obserwować.";
+                        "Proces wymaga obserwacji. Brak wyraźnych oznak zakończenia.";
                 }
                 else
                 {
                     recommendation.Level = RecommendationLevel.Info;
+
                     recommendation.Message =
                         "Proces wygląda prawidłowo.";
                 }
@@ -154,6 +159,7 @@ public class DashboardService
             })
             .OrderByDescending(x => x.GhostScore)
             .ToList();
+
 
         return new RecommendationDashboardModel
         {
