@@ -14,7 +14,12 @@ builder.Services.AddSingleton<IGhostRule, CompanyHistoryRule>();
 builder.Services.AddSingleton<IGhostRule, NoResponseRule>();
 builder.Services.AddSingleton<IGhostRule, RepeatedPostingRule>();
 builder.Services.AddSingleton<JobStatisticsService>();
-builder.Services.AddSingleton<DashboardService>();
+builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<DashboardSummaryCalculator>();
+builder.Services.AddScoped<CompanyAnalyticsCalculator>();
+builder.Services.AddScoped<RecommendationCalculator>();
+builder.Services.AddScoped<ResponseAnalyticsCalculator>();
+builder.Services.AddScoped<RecentActivityCalculator>();
 
 
 // Add services to the container.
