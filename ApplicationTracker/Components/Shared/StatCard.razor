@@ -1,0 +1,21 @@
+﻿<div class="dashboard-card">
+
+    <div class="dashboard-card-title">
+        @Title
+    </div>
+
+    <div class="dashboard-card-value">
+        @Value
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Value { get; set; } = "";
+
+}
