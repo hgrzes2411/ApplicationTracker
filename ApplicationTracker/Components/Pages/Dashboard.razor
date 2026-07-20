@@ -160,6 +160,49 @@ else
     {
         <p>Brak rekomendacji.</p>
     }
+
+
+    <hr />
+
+
+    <h2>⏱ Analityka odpowiedzi</h2>
+
+    @if (dashboard.ResponseAnalytics != null)
+    {
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Średni czas odpowiedzi</th>
+                    <th>Najszybsza odpowiedź</th>
+                    <th>Najdłuższe oczekiwanie</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        @dashboard.ResponseAnalytics.AverageResponseTime.ToString("F1") dni
+                    </td>
+
+                    <td>
+                        @dashboard.ResponseAnalytics.FastestResponseTime dni
+                    </td>
+
+                    <td>
+                        @dashboard.ResponseAnalytics.SlowestResponseTime dni
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <p>Brak danych o czasie odpowiedzi.</p>
+    }
 }
 
 

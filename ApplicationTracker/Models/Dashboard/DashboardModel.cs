@@ -9,4 +9,6 @@ public class DashboardModel
     public List<ActivityDashboardModel> RecentActivity { get; set; } = [];
 
     public RecommendationDashboardModel Recommendations { get; set; } = new();
+
+    public ResponseAnalyticsDashboardModel ResponseAnalytics { get; set; } = new();
 }
