@@ -14,6 +14,7 @@ public class DashboardService
     private readonly RecommendationCalculator _recommendationCalculator;
     private readonly ResponseAnalyticsCalculator _responseAnalyticsCalculator;
     private readonly RecentActivityCalculator _recentActivityCalculator;
+    private readonly StatusChartCalculator _statusChartCalculator;
     public DashboardService(
     JobService jobService,
     GhostDetector ghostDetector,
@@ -21,7 +22,8 @@ public class DashboardService
     CompanyAnalyticsCalculator companyAnalyticsCalculator,
     RecommendationCalculator recommendationCalculator,
     ResponseAnalyticsCalculator responseAnalyticsCalculator,
-    RecentActivityCalculator recentActivityCalculator)
+    RecentActivityCalculator recentActivityCalculator,
+    StatusChartCalculator statusChartCalculator)
     {
         _jobService = jobService;
         _ghostDetector = ghostDetector;
@@ -30,6 +32,7 @@ public class DashboardService
         _recommendationCalculator = recommendationCalculator;
         _responseAnalyticsCalculator = responseAnalyticsCalculator;
         _recentActivityCalculator = recentActivityCalculator;
+        _statusChartCalculator = statusChartCalculator;
     }
 
     public async Task<DashboardModel> GetDashboardAsync()
@@ -51,6 +54,9 @@ public class DashboardService
         var recentActivity =
      _recentActivityCalculator.Calculate(jobs);
 
+        var statusChart =
+     _statusChartCalculator.Calculate(jobs);
+
         return new DashboardModel
         {
             
@@ -68,7 +74,7 @@ public class DashboardService
 
             ResponseAnalytics = responseAnalytics,
 
-            RecentActivity = recentActivity
+            RecentActivity = recentActivity,
 
 
 

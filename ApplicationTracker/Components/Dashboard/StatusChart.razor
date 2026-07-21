@@ -1,0 +1,60 @@
+﻿@using ApplicationTracker.Models.Dashboard.Charts
+@using ApplicationTracker.Services.Charts
+
+@inject ChartService ChartService
+
+<div class="chart-card">
+
+    <h2>Status aplikacji</h2>
+
+    <canvas id="statusChart"
+            height="300">
+    </canvas>
+
+</div>
+
+@code
+{
+    [Parameter]
+    public StatusChartModel Data { get; set; } = new();
+
+    private StatusChartModel? _lastRenderedData;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender || HasChartChanged())
+        {
+            await ChartService.RenderStatusChartAsync(
+                "statusChart",
+                [
+                    Data.Applied,
+                    Data.Interview,
+                    Data.Offer,
+                    Data.Rejected,
+                    Data.Ghost
+                ]);
+
+            _lastRenderedData = new StatusChartModel
+            {
+                Applied = Data.Applied,
+                Interview = Data.Interview,
+                Offer = Data.Offer,
+                Rejected = Data.Rejected,
+                Ghost = Data.Ghost
+            };
+        }
+    }
+
+    private bool HasChartChanged()
+    {
+        if (_lastRenderedData is null)
+            return true;
+
+        return
+            _lastRenderedData.Applied != Data.Applied ||
+            _lastRenderedData.Interview != Data.Interview ||
+            _lastRenderedData.Offer != Data.Offer ||
+            _lastRenderedData.Rejected != Data.Rejected ||
+            _lastRenderedData.Ghost != Data.Ghost;
+    }
+}

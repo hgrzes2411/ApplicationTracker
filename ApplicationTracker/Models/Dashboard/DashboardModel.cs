@@ -1,4 +1,6 @@
-﻿namespace ApplicationTracker.Models.Dashboard;
+﻿using ApplicationTracker.Models.Dashboard.Charts;
+
+namespace ApplicationTracker.Models.Dashboard;
 
 public class DashboardModel
 {
@@ -11,4 +13,6 @@ public class DashboardModel
     public RecommendationDashboardModel Recommendations { get; set; } = new();
 
     public ResponseAnalyticsDashboardModel ResponseAnalytics { get; set; } = new();
+
+    public StatusChartModel StatusChart { get; set; } = new();
 }

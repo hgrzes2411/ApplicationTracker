@@ -1,5 +1,6 @@
 using ApplicationTracker.Components;
 using ApplicationTracker.Services;
+using ApplicationTracker.Services.Charts;
 using ApplicationTracker.Services.Dashboard;
 using ApplicationTracker.Services.GhostDetection.Rules;
 using ApplicationTracker.Services.Jobs;
@@ -20,6 +21,9 @@ builder.Services.AddScoped<CompanyAnalyticsCalculator>();
 builder.Services.AddScoped<RecommendationCalculator>();
 builder.Services.AddScoped<ResponseAnalyticsCalculator>();
 builder.Services.AddScoped<RecentActivityCalculator>();
+builder.Services.AddScoped<StatusChartCalculator>();
+builder.Services.AddScoped<ChartService>();
+builder.Services.AddScoped<DashboardSummaryCalculator>();
 
 
 // Add services to the container.
