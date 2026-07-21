@@ -1,5 +1,9 @@
-﻿[Parameter]
-public RecommendationLevel Level { get; set; }
+﻿@using ApplicationTracker.Models.Dashboard
+@code
+{
+    [Parameter]
+    public RecommendationLevel Level { get; set; }
 
-[Parameter]
-public double Score { get; set; }
+    [Parameter]
+    public double Score { get; set; }
+}

@@ -1,0 +1,54 @@
+﻿@using ApplicationTracker.Models.Dashboard
+@using ApplicationTracker.Components.Shared
+
+<SectionCard Title="Rekomendacje">
+
+    @if (Data.Items.Any())
+    {
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Firma</th>
+                    <th>Ghost Score</th>
+                    <th>Poziom</th>
+                    <th>Rekomendacja</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Data.Items.Take(10))
+                {
+                    <tr>
+
+                        <td>@item.Company</td>
+
+                        <td>@item.GhostScore</td>
+
+                        <td>
+                            <RiskBadge Level="@item.Level"
+                                       Score="@item.GhostScore" />
+                        </td>
+
+                        <td>@item.Message</td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <p>Brak rekomendacji.</p>
+    }
+
+</SectionCard>
+
+@code
+{
+    [Parameter]
+    public RecommendationDashboardModel Data { get; set; } = new();
+}

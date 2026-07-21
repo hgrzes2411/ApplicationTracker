@@ -1,0 +1,47 @@
+﻿@using ApplicationTracker.Models.Dashboard
+
+<SectionCard Title="Najbardziej podejrzane firmy">
+
+    @if (Data.TopCompanies.Any())
+    {
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Firma</th>
+                    <th>Aplikacje</th>
+                    <th>Średni Ghost Score</th>
+                    <th>Interview</th>
+                    <th>Oferty</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var company in Data.TopCompanies.Take(10))
+                {
+                    <tr>
+                        <td>@company.Company</td>
+                        <td>@company.Applications</td>
+                        <td>@company.AverageGhostScore.ToString("F1")</td>
+                        <td>@company.InterviewCount</td>
+                        <td>@company.OfferCount</td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <p>Brak danych firm.</p>
+    }
+
+</SectionCard>
+
+@code
+{
+    [Parameter]
+    public CompanyAnalyticsDashboardModel Data { get; set; } = new();
+}

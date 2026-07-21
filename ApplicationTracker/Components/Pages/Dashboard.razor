@@ -5,6 +5,7 @@
 @using ApplicationTracker.Models.Dashboard
 @using ApplicationTracker.Services.Dashboard
 @using ApplicationTracker.Components.Shared
+@using ApplicationTracker.Components.Dashboard
 
 @inject DashboardService DashboardService
 
@@ -58,147 +59,13 @@
 
         <div class="dashboard-two-columns">
 
-            <SectionCard Title="Najbardziej podejrzane firmy">
+            <CompanyAnalyticsSection Data="@dashboard.CompanyAnalytics" />
 
-                @if (dashboard.CompanyAnalytics.TopCompanies.Any())
-                {
-                    <table>
+            <RecommendationsSection Data="@dashboard.Recommendations" />
 
-                        <thead>
-                            <tr>
-                                <th>Firma</th>
-                                <th>Aplikacje</th>
-                                <th>Średni Ghost Score</th>
-                                <th>Interview</th>
-                                <th>Oferty</th>
-                            </tr>
-                        </thead>
+            <ResponseAnalyticsSection Data="@dashboard.ResponseAnalytics" />
 
-                        <tbody>
-
-                            @foreach (var company in dashboard.CompanyAnalytics.TopCompanies.Take(10))
-                            {
-                                <tr>
-                                    <td>@company.Company</td>
-                                    <td>@company.Applications</td>
-                                    <td>@company.AverageGhostScore.ToString("F1")</td>
-                                    <td>@company.InterviewCount</td>
-                                    <td>@company.OfferCount</td>
-                                </tr>
-                            }
-
-                        </tbody>
-
-                    </table>
-                }
-                else
-                {
-                    <p>Brak danych firm.</p>
-                }
-
-            </SectionCard>
-
-            <SectionCard Title="Rekomendacje">
-
-                @if (dashboard.Recommendations.Items.Any())
-                {
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>Firma</th>
-                                <th>Ghost Score</th>
-                                <th>Poziom</th>
-                                <th>Rekomendacja</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (var item in dashboard.Recommendations.Items.Take(10))
-                            {
-                                <tr>
-                                    <td>@item.Company</td>
-                                    <td>@item.GhostScore</td>
-                                    <td>@item.Level</td>
-                                    <td>@item.Message</td>
-                                </tr>
-                            }
-
-                        </tbody>
-
-                    </table>
-                }
-                else
-                {
-                    <p>Brak rekomendacji.</p>
-                }
-
-            </SectionCard>
-
-            <SectionCard Title="⏱ Analityka odpowiedzi">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Średni czas odpowiedzi</th>
-                            <th>Najszybsza odpowiedź</th>
-                            <th>Najdłuższe oczekiwanie</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <td>@dashboard.ResponseAnalytics.AverageResponseTime.ToString("F1") dni</td>
-                            <td>@dashboard.ResponseAnalytics.FastestResponseTime dni</td>
-                            <td>@dashboard.ResponseAnalytics.SlowestResponseTime dni</td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </SectionCard>
-
-            <SectionCard Title="🕒 Ostatnia aktywność">
-
-                @if (dashboard.RecentActivity.Any())
-                {
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Firma</th>
-                                <th>Status</th>
-                                <th>Notatka</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (var activity in dashboard.RecentActivity)
-                            {
-                                <tr>
-                                    <td>@activity.Date</td>
-                                    <td>@activity.Company</td>
-                                    <td>@activity.Status</td>
-                                    <td>@activity.Note</td>
-                                </tr>
-                            }
-
-                        </tbody>
-
-                    </table>
-                }
-                else
-                {
-                    <p>Brak aktywności.</p>
-                }
-
-            </SectionCard>
+            <RecentActivitySection Data="@dashboard.RecentActivity" />
 
         </div>
     }

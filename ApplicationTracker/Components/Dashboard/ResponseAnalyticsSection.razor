@@ -1,0 +1,37 @@
+﻿@using ApplicationTracker.Models.Dashboard
+
+<SectionCard Title="⏱ Analityka odpowiedzi">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Średni czas odpowiedzi</th>
+                <th>Najszybsza</th>
+                <th>Najwolniejsza</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>@Data.AverageResponseTime.ToString("F1") dni</td>
+
+                <td>@Data.FastestResponseTime dni</td>
+
+                <td>@Data.SlowestResponseTime dni</td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</SectionCard>
+
+@code
+{
+    [Parameter]
+    public ResponseAnalyticsDashboardModel Data { get; set; } = new();
+}
