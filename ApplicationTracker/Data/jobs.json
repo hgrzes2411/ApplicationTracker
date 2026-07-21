@@ -22,5 +22,29 @@
     "CurrentStatus": 0,
     "Url": null,
     "Notes": null
+  },
+  {
+    "Id": "f204f34d-6cc7-4fdc-bcc8-aaf60ae51831",
+    "Company": "Bakk",
+    "NormalizedCompany": "bakk",
+    "Position": "Programista C# .NET",
+    "Location": "Warszawa, Białołęka",
+    "WorkMode": 2,
+    "SalaryFrom": 6000,
+    "SalaryTo": 8000,
+    "ApplicationDate": "2026-07-20",
+    "Status": 0,
+    "Source": null,
+    "ExternalJobId": "2",
+    "History": [
+      {
+        "Status": 0,
+        "Date": "2026-07-20",
+        "Note": null
+      }
+    ],
+    "CurrentStatus": 0,
+    "Url": null,
+    "Notes": null
   }
 ]

@@ -58,11 +58,7 @@
 
         <div class="dashboard-two-columns">
 
-            <!-- Najbardziej podejrzane firmy -->
-
-            <div class="section-card">
-
-                <h2>Najbardziej podejrzane firmy</h2>
+            <SectionCard Title="Najbardziej podejrzane firmy">
 
                 @if (dashboard.CompanyAnalytics.TopCompanies.Any())
                 {
@@ -100,13 +96,9 @@
                     <p>Brak danych firm.</p>
                 }
 
-            </div>
+            </SectionCard>
 
-            <!-- Rekomendacje -->
-
-            <div class="section-card">
-
-                <h2>Rekomendacje</h2>
+            <SectionCard Title="Rekomendacje">
 
                 @if (dashboard.Recommendations.Items.Any())
                 {
@@ -142,13 +134,9 @@
                     <p>Brak rekomendacji.</p>
                 }
 
-            </div>
+            </SectionCard>
 
-            <!-- Response Analytics -->
-
-            <div class="section-card">
-
-                <h2>⏱ Analityka odpowiedzi</h2>
+            <SectionCard Title="⏱ Analityka odpowiedzi">
 
                 <table>
 
@@ -172,13 +160,9 @@
 
                 </table>
 
-            </div>
+            </SectionCard>
 
-            <!-- Ostatnia aktywność -->
-
-            <div class="section-card">
-
-                <h2>🕒 Ostatnia aktywność</h2>
+            <SectionCard Title="🕒 Ostatnia aktywność">
 
                 @if (dashboard.RecentActivity.Any())
                 {
@@ -214,7 +198,7 @@
                     <p>Brak aktywności.</p>
                 }
 
-            </div>
+            </SectionCard>
 
         </div>
     }
