@@ -15,9 +15,8 @@ public class ChartService
         string canvasId,
         int[] data)
     {
-        await _js.InvokeVoidAsync(
-            "dashboardCharts.createStatusChart",
-            canvasId,
-            data);
+        // Import the JS module dynamically to ensure the code is loaded
+        var module = await _js.InvokeAsync<IJSObjectReference>("import", "./js/dashboardCharts.js");
+        await module.InvokeVoidAsync("createStatusChart", canvasId, data);
     }
 }
