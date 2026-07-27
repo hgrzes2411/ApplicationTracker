@@ -1,6 +1,7 @@
 ﻿using ApplicationTracker.Models.Dashboard;
 using ApplicationTracker.Services.Jobs;
 
+
 namespace ApplicationTracker.Services.Dashboard;
 
 public class DashboardService
@@ -12,6 +13,7 @@ public class DashboardService
     private readonly ResponseAnalyticsCalculator _responseAnalyticsCalculator;
     private readonly RecentActivityCalculator _recentActivityCalculator;
     private readonly StatusChartCalculator _statusChartCalculator;
+    private readonly SuccessRateCalculator _successRateCalculator;
 
     public DashboardService(
         JobService jobService,
@@ -20,7 +22,8 @@ public class DashboardService
         RecommendationCalculator recommendationCalculator,
         ResponseAnalyticsCalculator responseAnalyticsCalculator,
         RecentActivityCalculator recentActivityCalculator,
-        StatusChartCalculator statusChartCalculator)
+        StatusChartCalculator statusChartCalculator,
+        SuccessRateCalculator successRateCalculator)
     {
         _jobService = jobService;
         _summaryCalculator = summaryCalculator;
@@ -29,6 +32,7 @@ public class DashboardService
         _responseAnalyticsCalculator = responseAnalyticsCalculator;
         _recentActivityCalculator = recentActivityCalculator;
         _statusChartCalculator = statusChartCalculator;
+        _successRateCalculator = successRateCalculator;
     }
 
     public async Task<DashboardModel> GetDashboardAsync()
@@ -36,6 +40,8 @@ public class DashboardService
         var jobs = await _jobService.GetAllAsync();
 
         var companies = _companyAnalyticsCalculator.Calculate(jobs);
+
+        var successRate = _successRateCalculator.Calculate(jobs);
 
         return new DashboardModel
         {
@@ -53,7 +59,9 @@ public class DashboardService
 
             RecentActivity = _recentActivityCalculator.Calculate(jobs),
 
-            StatusChart = _statusChartCalculator.Calculate(jobs)
+            StatusChart = _statusChartCalculator.Calculate(jobs),
+
+            SuccessRate = successRate
         };
     }
 }

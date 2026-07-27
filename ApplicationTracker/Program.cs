@@ -24,6 +24,7 @@ builder.Services.AddScoped<RecentActivityCalculator>();
 builder.Services.AddScoped<StatusChartCalculator>();
 builder.Services.AddScoped<ChartService>();
 builder.Services.AddScoped<DashboardSummaryCalculator>();
+builder.Services.AddScoped<SuccessRateCalculator>();
 
 
 // Add services to the container.

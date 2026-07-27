@@ -15,4 +15,6 @@ public class DashboardModel
     public ResponseAnalyticsDashboardModel ResponseAnalytics { get; set; } = new();
 
     public StatusChartModel StatusChart { get; set; } = new();
+
+    public SuccessRateDashboardModel SuccessRate { get; set; } = new();
 }
