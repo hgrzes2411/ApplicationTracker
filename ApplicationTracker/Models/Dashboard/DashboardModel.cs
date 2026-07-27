@@ -17,4 +17,6 @@ public class DashboardModel
     public StatusChartModel StatusChart { get; set; } = new();
 
     public SuccessRateDashboardModel SuccessRate { get; set; } = new();
+
+    public RecruitmentFunnelModel RecruitmentFunnel { get; set; } = new();
 }

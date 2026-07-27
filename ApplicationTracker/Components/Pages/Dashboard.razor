@@ -57,7 +57,87 @@
 
         </div>
 
-        <!-- NOWA SEKCJA -->
+        <!-- Skuteczność rekrutacji -->
+
+        <div class="section-card">
+
+            <h2>🎯 Skuteczność rekrutacji</h2>
+
+            <div class="success-rate-grid">
+
+                <div class="success-item">
+                    <span class="success-title">Aplikacje</span>
+                    <span class="success-value">
+                        @dashboard.SuccessRate.TotalApplications
+                    </span>
+                </div>
+
+                <div class="success-item">
+                    <span class="success-title">Odpowiedzi</span>
+                    <span class="success-value">
+                        @dashboard.SuccessRate.Responses
+                    </span>
+                </div>
+
+                <div class="success-item">
+                    <span class="success-title">Interview</span>
+                    <span class="success-value">
+                        @dashboard.SuccessRate.Interviews
+                    </span>
+                </div>
+
+                <div class="success-item">
+                    <span class="success-title">Oferty</span>
+                    <span class="success-value">
+                        @dashboard.SuccessRate.Offers
+                    </span>
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="success-rate-grid">
+
+                <div class="success-item">
+                    <span class="success-title">
+                        Response Rate
+                    </span>
+
+                    <span class="success-percent">
+                        @dashboard.SuccessRate.ResponseRate.ToString("F1")%
+                    </span>
+                </div>
+
+                <div class="success-item">
+                    <span class="success-title">
+                        Interview Rate
+                    </span>
+
+                    <span class="success-percent">
+                        @dashboard.SuccessRate.InterviewRate.ToString("F1")%
+                    </span>
+                </div>
+
+                <div class="success-item">
+                    <span class="success-title">
+                        Offer Rate
+                    </span>
+
+                    <span class="success-percent">
+                        @dashboard.SuccessRate.OfferRate.ToString("F1")%
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Recruitment Funnel -->
+
+        <RecruitmentFunnel Model="@dashboard.RecruitmentFunnel" />
+
+        <!-- Wykres statusów -->
 
         <div class="section-card">
 
@@ -65,7 +145,7 @@
 
         </div>
 
-        <!-- Dalsze sekcje -->
+        <!-- Pozostałe sekcje -->
 
         <div class="dashboard-two-columns">
 

@@ -1,7 +1,6 @@
 ﻿using ApplicationTracker.Models.Dashboard;
 using ApplicationTracker.Services.Jobs;
 
-
 namespace ApplicationTracker.Services.Dashboard;
 
 public class DashboardService
@@ -14,6 +13,7 @@ public class DashboardService
     private readonly RecentActivityCalculator _recentActivityCalculator;
     private readonly StatusChartCalculator _statusChartCalculator;
     private readonly SuccessRateCalculator _successRateCalculator;
+    private readonly RecruitmentFunnelCalculator _recruitmentFunnelCalculator;
 
     public DashboardService(
         JobService jobService,
@@ -23,7 +23,8 @@ public class DashboardService
         ResponseAnalyticsCalculator responseAnalyticsCalculator,
         RecentActivityCalculator recentActivityCalculator,
         StatusChartCalculator statusChartCalculator,
-        SuccessRateCalculator successRateCalculator)
+        SuccessRateCalculator successRateCalculator,
+        RecruitmentFunnelCalculator recruitmentFunnelCalculator)
     {
         _jobService = jobService;
         _summaryCalculator = summaryCalculator;
@@ -33,6 +34,7 @@ public class DashboardService
         _recentActivityCalculator = recentActivityCalculator;
         _statusChartCalculator = statusChartCalculator;
         _successRateCalculator = successRateCalculator;
+        _recruitmentFunnelCalculator = recruitmentFunnelCalculator;
     }
 
     public async Task<DashboardModel> GetDashboardAsync()
@@ -42,6 +44,8 @@ public class DashboardService
         var companies = _companyAnalyticsCalculator.Calculate(jobs);
 
         var successRate = _successRateCalculator.Calculate(jobs);
+
+        var recruitmentFunnel = _recruitmentFunnelCalculator.Calculate(jobs);
 
         return new DashboardModel
         {
@@ -61,7 +65,9 @@ public class DashboardService
 
             StatusChart = _statusChartCalculator.Calculate(jobs),
 
-            SuccessRate = successRate
+            SuccessRate = successRate,
+
+            RecruitmentFunnel = recruitmentFunnel
         };
     }
 }

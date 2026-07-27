@@ -1,0 +1,68 @@
+﻿@using ApplicationTracker.Models.Dashboard
+<div class="section-card">
+
+    <h2>🎯 Recruitment Funnel</h2>
+
+    <div class="funnel">
+
+        <div class="funnel-step">
+            <span>Aplikacje</span>
+            <strong>@Model.Applications</strong>
+        </div>
+
+        <div class="funnel-arrow">↓</div>
+
+        <div class="funnel-step">
+            <span>Odpowiedzi</span>
+            <strong>@Model.Responses</strong>
+        </div>
+
+        <div class="funnel-arrow">↓</div>
+
+        <div class="funnel-step">
+            <span>Interview</span>
+            <strong>@Model.Interviews</strong>
+        </div>
+
+        <div class="funnel-arrow">↓</div>
+
+        <div class="funnel-step">
+            <span>Oferty</span>
+            <strong>@Model.Offers</strong>
+        </div>
+        <div class="funnel-rates">
+
+            <div>
+                <span>Response Rate</span>
+                <strong>
+                    @Model.ResponseRate.ToString("F1")%
+                </strong>
+            </div>
+
+
+            <div>
+                <span>Interview Rate</span>
+                <strong>
+                    @Model.InterviewRate.ToString("F1")%
+                </strong>
+            </div>
+
+
+            <div>
+                <span>Offer Rate</span>
+                <strong>
+                    @Model.OfferRate.ToString("F1")%
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@code
+{
+    [Parameter]
+    public RecruitmentFunnelModel Model { get; set; } = new();
+}
