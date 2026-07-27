@@ -1,6 +1,4 @@
-﻿using ApplicationTracker.Models;
-using ApplicationTracker.Models.Dashboard;
-using ApplicationTracker.Services.GhostDetection;
+﻿using ApplicationTracker.Models.Dashboard;
 using ApplicationTracker.Services.Jobs;
 
 namespace ApplicationTracker.Services.Dashboard;
@@ -8,25 +6,23 @@ namespace ApplicationTracker.Services.Dashboard;
 public class DashboardService
 {
     private readonly JobService _jobService;
-    private readonly GhostDetector _ghostDetector;
     private readonly DashboardSummaryCalculator _summaryCalculator;
     private readonly CompanyAnalyticsCalculator _companyAnalyticsCalculator;
     private readonly RecommendationCalculator _recommendationCalculator;
     private readonly ResponseAnalyticsCalculator _responseAnalyticsCalculator;
     private readonly RecentActivityCalculator _recentActivityCalculator;
     private readonly StatusChartCalculator _statusChartCalculator;
+
     public DashboardService(
-    JobService jobService,
-    GhostDetector ghostDetector,
-    DashboardSummaryCalculator summaryCalculator,
-    CompanyAnalyticsCalculator companyAnalyticsCalculator,
-    RecommendationCalculator recommendationCalculator,
-    ResponseAnalyticsCalculator responseAnalyticsCalculator,
-    RecentActivityCalculator recentActivityCalculator,
-    StatusChartCalculator statusChartCalculator)
+        JobService jobService,
+        DashboardSummaryCalculator summaryCalculator,
+        CompanyAnalyticsCalculator companyAnalyticsCalculator,
+        RecommendationCalculator recommendationCalculator,
+        ResponseAnalyticsCalculator responseAnalyticsCalculator,
+        RecentActivityCalculator recentActivityCalculator,
+        StatusChartCalculator statusChartCalculator)
     {
         _jobService = jobService;
-        _ghostDetector = ghostDetector;
         _summaryCalculator = summaryCalculator;
         _companyAnalyticsCalculator = companyAnalyticsCalculator;
         _recommendationCalculator = recommendationCalculator;
@@ -39,46 +35,25 @@ public class DashboardService
     {
         var jobs = await _jobService.GetAllAsync();
 
-        var analyses = jobs
-            .Select(job => _ghostDetector.Analyze(job, jobs))
-            .ToList();
-
-        var recommendations =
-    _recommendationCalculator.Calculate(jobs);
-
         var companies = _companyAnalyticsCalculator.Calculate(jobs);
-
-        var responseAnalytics =
-    _responseAnalyticsCalculator.Calculate(jobs);
-
-        var recentActivity =
-     _recentActivityCalculator.Calculate(jobs);
-
-        var statusChart =
-     _statusChartCalculator.Calculate(jobs);
 
         return new DashboardModel
         {
-            
-                Summary = _summaryCalculator.Calculate(jobs),
-            
+            Summary = _summaryCalculator.Calculate(jobs),
 
             CompanyAnalytics = new CompanyAnalyticsDashboardModel
             {
                 TopCompanies = companies,
-
                 MostSuspiciousCompany = companies.FirstOrDefault()
             },
 
-            Recommendations = recommendations,
+            Recommendations = _recommendationCalculator.Calculate(jobs),
 
-            ResponseAnalytics = responseAnalytics,
+            ResponseAnalytics = _responseAnalyticsCalculator.Calculate(jobs),
 
-            RecentActivity = recentActivity,
+            RecentActivity = _recentActivityCalculator.Calculate(jobs),
 
-
-
+            StatusChart = _statusChartCalculator.Calculate(jobs)
         };
-
     }
 }
