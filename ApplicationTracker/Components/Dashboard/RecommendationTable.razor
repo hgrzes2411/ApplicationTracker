@@ -1,0 +1,47 @@
+﻿@using ApplicationTracker.Models.Dashboard
+
+<div class="section-card">
+
+    <h2>Rekomendacje</h2>
+
+    @if (Model.Items.Any())
+    {
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Firma</th>
+                    <th>Ghost Score</th>
+                    <th>Poziom</th>
+                    <th>Rekomendacja</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model.Items.Take(10))
+                {
+                    <tr>
+                        <td>@item.Company</td>
+                        <td>@item.GhostScore</td>
+                        <td>@item.Level</td>
+                        <td>@item.Message</td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <p>Brak rekomendacji.</p>
+    }
+
+</div>
+
+@code
+{
+    [Parameter]
+    public RecommendationDashboardModel Model { get; set; } = new();
+}

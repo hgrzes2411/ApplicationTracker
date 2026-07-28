@@ -19,4 +19,10 @@ public class DashboardModel
     public SuccessRateDashboardModel SuccessRate { get; set; } = new();
 
     public RecruitmentFunnelModel RecruitmentFunnel { get; set; } = new();
+
+    public RecruitmentTimelineModel Timeline { get; set; } = new();
+
+    public SourceAnalyticsModel SourceAnalytics { get; set; } = new();
+
+    public CompanyInsightsModel CompanyInsights { get; set; } = new();
 }

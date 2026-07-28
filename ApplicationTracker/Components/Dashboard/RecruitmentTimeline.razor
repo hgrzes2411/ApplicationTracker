@@ -1,0 +1,44 @@
+﻿@using ApplicationTracker.Models.Dashboard
+
+<div class="section-card">
+
+    <h2>📅 Recruitment Timeline</h2>
+
+    @if (!Model.Events.Any())
+    {
+        <p>Brak historii rekrutacji.</p>
+    }
+    else
+    {
+        @foreach (var item in Model.Events.Take(20))
+        {
+            <div class="timeline-item">
+
+                <div class="timeline-date">
+                    @item.Date
+                </div>
+
+                <div class="timeline-content">
+
+                    <strong>@item.Company</strong>
+
+                    <div>@item.Status</div>
+
+                    @if (!string.IsNullOrWhiteSpace(item.Note))
+                    {
+                        <small>@item.Note</small>
+                    }
+
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
+
+@code
+{
+    [Parameter]
+    public RecruitmentTimelineModel Model { get; set; } = new();
+}

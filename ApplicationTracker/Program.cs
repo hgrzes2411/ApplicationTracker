@@ -26,6 +26,9 @@ builder.Services.AddScoped<ChartService>();
 builder.Services.AddScoped<DashboardSummaryCalculator>();
 builder.Services.AddScoped<SuccessRateCalculator>();
 builder.Services.AddScoped<RecruitmentFunnelCalculator>();
+builder.Services.AddScoped<RecruitmentTimelineCalculator>();
+builder.Services.AddScoped<SourceAnalyticsCalculator>();
+builder.Services.AddScoped<CompanyInsightsCalculator>();
 
 
 // Add services to the container.

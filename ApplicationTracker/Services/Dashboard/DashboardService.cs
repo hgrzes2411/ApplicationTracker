@@ -14,6 +14,9 @@ public class DashboardService
     private readonly StatusChartCalculator _statusChartCalculator;
     private readonly SuccessRateCalculator _successRateCalculator;
     private readonly RecruitmentFunnelCalculator _recruitmentFunnelCalculator;
+    private readonly RecruitmentTimelineCalculator _recruitmentTimelineCalculator;
+    private readonly SourceAnalyticsCalculator _sourceAnalyticsCalculator;
+    private readonly CompanyInsightsCalculator _companyInsightsCalculator;
 
     public DashboardService(
         JobService jobService,
@@ -24,7 +27,10 @@ public class DashboardService
         RecentActivityCalculator recentActivityCalculator,
         StatusChartCalculator statusChartCalculator,
         SuccessRateCalculator successRateCalculator,
-        RecruitmentFunnelCalculator recruitmentFunnelCalculator)
+        RecruitmentFunnelCalculator recruitmentFunnelCalculator,
+        RecruitmentTimelineCalculator recruitmentTimelineCalculator,
+        SourceAnalyticsCalculator sourceAnalyticsCalculator,
+        CompanyInsightsCalculator companyInsightsCalculator)
     {
         _jobService = jobService;
         _summaryCalculator = summaryCalculator;
@@ -35,6 +41,9 @@ public class DashboardService
         _statusChartCalculator = statusChartCalculator;
         _successRateCalculator = successRateCalculator;
         _recruitmentFunnelCalculator = recruitmentFunnelCalculator;
+        _recruitmentTimelineCalculator = recruitmentTimelineCalculator;
+        _sourceAnalyticsCalculator = sourceAnalyticsCalculator;
+        _companyInsightsCalculator = companyInsightsCalculator;
     }
 
     public async Task<DashboardModel> GetDashboardAsync()
@@ -46,6 +55,13 @@ public class DashboardService
         var successRate = _successRateCalculator.Calculate(jobs);
 
         var recruitmentFunnel = _recruitmentFunnelCalculator.Calculate(jobs);
+
+        var timeline = _recruitmentTimelineCalculator.Calculate(jobs);
+
+        var sourceAnalytics =
+    _sourceAnalyticsCalculator.Calculate(jobs);
+        var companyInsights =
+    _companyInsightsCalculator.Calculate(jobs);
 
         return new DashboardModel
         {
@@ -67,7 +83,12 @@ public class DashboardService
 
             SuccessRate = successRate,
 
-            RecruitmentFunnel = recruitmentFunnel
+            RecruitmentFunnel = recruitmentFunnel,
+
+            Timeline = timeline,
+
+            SourceAnalytics = sourceAnalytics,
+            CompanyInsights = companyInsights,
         };
     }
 }

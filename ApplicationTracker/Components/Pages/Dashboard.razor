@@ -16,13 +16,11 @@
     <div class="dashboard-header">
 
         <div>
-
             <h1>Application Tracker</h1>
 
             <p>
                 Monitoruj proces rekrutacji oraz analizuj ryzyko ghostingu.
             </p>
-
         </div>
 
     </div>
@@ -57,107 +55,48 @@
 
         </div>
 
-        <!-- Skuteczność rekrutacji -->
+        <DashboardRow>
 
-        <div class="section-card">
+            <SuccessRate
+                Model="@dashboard.SuccessRate" />
 
-            <h2>🎯 Skuteczność rekrutacji</h2>
+            <StatusChart
+                Data="@dashboard.StatusChart" />
 
-            <div class="success-rate-grid">
+        </DashboardRow>
 
-                <div class="success-item">
-                    <span class="success-title">Aplikacje</span>
-                    <span class="success-value">
-                        @dashboard.SuccessRate.TotalApplications
-                    </span>
-                </div>
+        <DashboardRow>
 
-                <div class="success-item">
-                    <span class="success-title">Odpowiedzi</span>
-                    <span class="success-value">
-                        @dashboard.SuccessRate.Responses
-                    </span>
-                </div>
+            <RecruitmentFunnel
+                Model="@dashboard.RecruitmentFunnel" />
 
-                <div class="success-item">
-                    <span class="success-title">Interview</span>
-                    <span class="success-value">
-                        @dashboard.SuccessRate.Interviews
-                    </span>
-                </div>
+            <RecruitmentTimeline
+                Model="@dashboard.Timeline" />
 
-                <div class="success-item">
-                    <span class="success-title">Oferty</span>
-                    <span class="success-value">
-                        @dashboard.SuccessRate.Offers
-                    </span>
-                </div>
+        </DashboardRow>
 
-            </div>
+        <DashboardRow>
 
-            <hr />
+            <ResponseAnalytics
+                Model="@dashboard.ResponseAnalytics" />
 
-            <div class="success-rate-grid">
+            <SourceAnalytics
+                Model="@dashboard.SourceAnalytics" />
 
-                <div class="success-item">
-                    <span class="success-title">
-                        Response Rate
-                    </span>
+        </DashboardRow>
 
-                    <span class="success-percent">
-                        @dashboard.SuccessRate.ResponseRate.ToString("F1")%
-                    </span>
-                </div>
+        <CompanyAnalytics
+            Model="@dashboard.CompanyAnalytics" />
 
-                <div class="success-item">
-                    <span class="success-title">
-                        Interview Rate
-                    </span>
+        <CompanyInsights
+            Model="@dashboard.CompanyInsights" />
 
-                    <span class="success-percent">
-                        @dashboard.SuccessRate.InterviewRate.ToString("F1")%
-                    </span>
-                </div>
+        <RecommendationTable
+            Model="@dashboard.Recommendations" />
 
-                <div class="success-item">
-                    <span class="success-title">
-                        Offer Rate
-                    </span>
+        <RecentActivity
+            Model="@dashboard.RecentActivity" />
 
-                    <span class="success-percent">
-                        @dashboard.SuccessRate.OfferRate.ToString("F1")%
-                    </span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Recruitment Funnel -->
-
-        <RecruitmentFunnel Model="@dashboard.RecruitmentFunnel" />
-
-        <!-- Wykres statusów -->
-
-        <div class="section-card">
-
-            <StatusChart Data="@dashboard.StatusChart" />
-
-        </div>
-
-        <!-- Pozostałe sekcje -->
-
-        <div class="dashboard-two-columns">
-
-            <CompanyAnalyticsSection Data="@dashboard.CompanyAnalytics" />
-
-            <RecommendationsSection Data="@dashboard.Recommendations" />
-
-            <ResponseAnalyticsSection Data="@dashboard.ResponseAnalytics" />
-
-            <RecentActivitySection Data="@dashboard.RecentActivity" />
-
-        </div>
     }
 
 </div>

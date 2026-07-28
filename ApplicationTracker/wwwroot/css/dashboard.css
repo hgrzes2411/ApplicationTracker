@@ -152,3 +152,29 @@
         font-size: 1.5rem;
         margin-top: 8px;
     }
+.timeline-item {
+    display: flex;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.timeline-date {
+    min-width: 100px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.timeline-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .timeline-content strong {
+        color: #1e293b;
+    }
+
+    .timeline-content small {
+        color: #64748b;
+    }

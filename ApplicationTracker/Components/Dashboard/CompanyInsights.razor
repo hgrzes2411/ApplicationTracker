@@ -2,9 +2,9 @@
 
 <div class="section-card">
 
-    <h2>Najbardziej podejrzane firmy</h2>
+    <h2>Company Insights</h2>
 
-    @if (Data.TopCompanies.Any())
+    @if (Model.Companies.Any())
     {
         <table class="table">
 
@@ -12,15 +12,17 @@
                 <tr>
                     <th>Firma</th>
                     <th>Aplikacje</th>
-                    <th>Średni Ghost Score</th>
                     <th>Interview</th>
                     <th>Oferty</th>
+                    <th>Success</th>
+                    <th>Ghost</th>
+                    <th>Response</th>
                 </tr>
             </thead>
 
             <tbody>
 
-                @foreach (var company in Data.TopCompanies.Take(10))
+                @foreach (var company in Model.Companies)
                 {
                     <tr>
 
@@ -28,17 +30,15 @@
 
                         <td>@company.Applications</td>
 
-                        <td>
-                            @company.AverageGhostScore.ToString("F1")
-                        </td>
+                        <td>@company.InterviewCount</td>
 
-                        <td>
-                            @company.InterviewCount
-                        </td>
+                        <td>@company.OfferCount</td>
 
-                        <td>
-                            @company.OfferCount
-                        </td>
+                        <td>@company.SuccessRate.ToString("F1")%</td>
+
+                        <td>@company.AverageGhostScore.ToString("F1")</td>
+
+                        <td>@company.AverageResponseTime.ToString("F1") dni</td>
 
                     </tr>
                 }
@@ -49,7 +49,7 @@
     }
     else
     {
-        <p>Brak danych firm.</p>
+        <p>Brak danych.</p>
     }
 
 </div>
@@ -57,5 +57,5 @@
 @code
 {
     [Parameter]
-    public CompanyAnalyticsDashboardModel Data { get; set; } = new();
+    public CompanyInsightsModel Model { get; set; } = new();
 }

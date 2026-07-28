@@ -1,0 +1,55 @@
+﻿@using ApplicationTracker.Models.Dashboard
+
+<div class="section-card">
+
+    <h2>Źródła aplikacji</h2>
+
+    @if (Model.Sources.Any())
+    {
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Źródło</th>
+                    <th>Aplikacje</th>
+                    <th>Interview</th>
+                    <th>Oferty</th>
+                    <th>Success</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var source in Model.Sources)
+                {
+                    <tr>
+
+                        <td>@source.Source</td>
+
+                        <td>@source.Applications</td>
+
+                        <td>@source.InterviewCount</td>
+
+                        <td>@source.OfferCount</td>
+
+                        <td>@source.SuccessRate.ToString("F1")%</td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <p>Brak danych.</p>
+    }
+
+</div>
+
+@code
+{
+    [Parameter]
+    public SourceAnalyticsModel Model { get; set; } = new();
+}
