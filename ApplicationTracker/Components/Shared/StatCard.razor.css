@@ -1,0 +1,13 @@
+﻿.stat-card {
+    transition: all .25s ease;
+}
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0,0,0,.15);
+    }
+
+.stat-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+}

@@ -25,7 +25,12 @@
     border: 1px solid var(--border-color);
     padding: 2rem;
     margin-top: 2rem;
+    transition: all .25s ease;
 }
+    .section-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0,0,0,.15);
+    }
 
 .dashboard-header {
     display: flex;
@@ -225,3 +230,87 @@
     min-width: 700px;
     border-collapse: collapse;
 }
+.status-badge {
+    display: inline-flex;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+
+.status-applied {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+
+.status-interview {
+    background: #fff3cd;
+    color: #856404;
+}
+
+
+.status-offer {
+    background: #d4edda;
+    color: #155724;
+}
+
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+
+.status-default {
+    background: #eee;
+    color: #555;
+}
+.risk-badge {
+    padding: 5px 10px;
+    border-radius: 14px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+
+.risk-high {
+    background: #ffdddd;
+    color: #b00020;
+}
+
+
+.risk-warning {
+    background: #fff4cc;
+    color: #8a6d00;
+}
+
+
+.risk-low {
+    background: #ddf5e5;
+    color: #147a36;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+tbody td {
+    padding: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+tbody tr {
+    transition: background-color .2s ease;
+}
+
+    tbody tr:hover {
+        background: #f8fafc;
+    }

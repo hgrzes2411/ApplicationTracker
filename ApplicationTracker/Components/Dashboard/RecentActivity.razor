@@ -1,4 +1,5 @@
-﻿@using ApplicationTracker.Models.Dashboard
+﻿@using ApplicationTracker.Components.Shared
+@using ApplicationTracker.Models.Dashboard
 
 <div class="section-card">
 
@@ -6,36 +7,48 @@
 
     @if (Model.Any())
     {
-        <table class="table-wrapper">
+        <div class="table-wrapper">
 
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Firma</th>
-                    <th>Status</th>
-                    <th>Notatka</th>
-                </tr>
-            </thead>
+            <table class="table">
 
-            <tbody>
-
-                @foreach (var activity in Model)
-                {
+                <thead>
                     <tr>
-                        <td>@activity.Date</td>
-                        <td>@activity.Company</td>
-                        <td>@activity.Status</td>
-                        <td>@activity.Note</td>
+                        <th>Data</th>
+                        <th>Firma</th>
+                        <th>Status</th>
+                        <th>Notatka</th>
                     </tr>
-                }
+                </thead>
 
-            </tbody>
+                <tbody>
 
-        </table>
+                    @foreach (var activity in Model)
+                    {
+                        <tr>
+
+                            <td>@activity.Date</td>
+
+                            <td>@activity.Company</td>
+
+                            <td>
+                                <StatusBadge Status="activity.Status" />
+                            </td>
+
+                            <td>@activity.Note</td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
     }
     else
     {
-        <p>Brak aktywności.</p>
+        <EmptyState Title="Brak aktywności"
+                    Description="Historia zmian jest pusta." />
     }
 
 </div>

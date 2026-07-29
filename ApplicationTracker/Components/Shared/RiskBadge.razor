@@ -1,9 +1,32 @@
 ﻿@using ApplicationTracker.Models.Dashboard
-@code
-{
-    [Parameter]
-    public RecommendationLevel Level { get; set; }
+<span class="risk-badge @GetClass()">
+    @Text
+</span>
+
+
+@code {
 
     [Parameter]
     public double Score { get; set; }
+
+
+    private string Text =>
+        Score switch
+        {
+            >= 70 => "High Risk",
+            >= 40 => "Warning",
+            _ => "Low Risk"
+        };
+
+
+    private string GetClass()
+    {
+        return Score switch
+        {
+            >= 70 => "risk-high",
+            >= 40 => "risk-warning",
+            _ => "risk-low"
+        };
+    }
+
 }

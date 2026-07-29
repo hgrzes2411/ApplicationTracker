@@ -1,4 +1,5 @@
-﻿@using ApplicationTracker.Models.Dashboard
+﻿@using ApplicationTracker.Components.Shared
+@using ApplicationTracker.Models.Dashboard
 
 <div class="section-card">
 
@@ -43,7 +44,13 @@
     }
     else
     {
-        <p>Brak danych.</p>
+        <EmptyState
+
+Title="Brak źródeł"
+
+Description="Nie dodano jeszcze żadnych źródeł."
+
+/>
     }
 
 </div>

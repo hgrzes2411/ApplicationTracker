@@ -13,44 +13,56 @@
 
 <div class="dashboard-container">
 
-    <div class="dashboard-header">
-
-        <div>
-            <h1>Application Tracker</h1>
-
-            <p>
-                Monitoruj proces rekrutacji oraz analizuj ryzyko ghostingu.
-            </p>
-        </div>
-
-    </div>
-
     @if (dashboard == null)
     {
-        <p>Ładowanie...</p>
+        <LoadingSkeleton />
     }
     else
     {
+        <div class="dashboard-header">
+
+            <div>
+                <h1>Application Tracker</h1>
+
+                <p>
+
+                    Masz obecnie
+
+                    <strong>@dashboard.Summary.ActiveApplications</strong>
+
+                    aktywnych procesów rekrutacyjnych.
+
+                </p>
+            </div>
+
+        </div>
+
         <h2>Podsumowanie</h2>
 
         <div class="dashboard-grid">
 
-            <StatCard Title="Aplikacje"
+            <StatCard Icon="📄"
+                      Title="Aplikacje"
                       Value="@dashboard.Summary.TotalApplications.ToString()" />
 
-            <StatCard Title="Aktywne"
+            <StatCard Icon="🟢"
+                      Title="Aktywne"
                       Value="@dashboard.Summary.ActiveApplications.ToString()" />
 
-            <StatCard Title="Interview"
+            <StatCard Icon="🤝"
+                      Title="Interview"
                       Value="@dashboard.Summary.InterviewCount.ToString()" />
 
-            <StatCard Title="Oferty"
+            <StatCard Icon="🏆"
+                      Title="Oferty"
                       Value="@dashboard.Summary.OfferCount.ToString()" />
 
-            <StatCard Title="Odrzucone"
+            <StatCard Icon="❌"
+                      Title="Odrzucone"
                       Value="@dashboard.Summary.RejectedCount.ToString()" />
 
-            <StatCard Title="Ghost Jobs"
+            <StatCard Icon="👻"
+                      Title="Ghost Jobs"
                       Value="@dashboard.Summary.GhostApplications.ToString()" />
 
         </div>

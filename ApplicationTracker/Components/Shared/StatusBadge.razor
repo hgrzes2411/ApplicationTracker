@@ -1,5 +1,28 @@
 ﻿@using ApplicationTracker.Models
-@code{
+<span class="status-badge @GetCssClass()">
+    @Status
+</span>
+
+@code {
+
     [Parameter]
-public ApplicationStatus Status { get; set; }
+    public ApplicationStatus Status { get; set; }
+
+
+    private string GetCssClass()
+    {
+        return Status switch
+        {
+            ApplicationStatus.Applied => "status-applied",
+
+            ApplicationStatus.Interview => "status-interview",
+
+            ApplicationStatus.Offer => "status-offer",
+
+            ApplicationStatus.Rejected => "status-rejected",
+
+            _ => "status-default"
+        };
+    }
+
 }
