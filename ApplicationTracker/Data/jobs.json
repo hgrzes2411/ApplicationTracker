@@ -41,10 +41,39 @@
         "Status": 0,
         "Date": "2026-07-20",
         "Note": null
+      },
+      {
+        "Status": 2,
+        "Date": "2026-07-29",
+        "Note": null
+      }
+    ],
+    "CurrentStatus": 2,
+    "Url": null,
+    "Notes": null
+  },
+  {
+    "Id": "16ef9434-12ef-479a-a453-de2f46082f48",
+    "Company": "Samsung",
+    "NormalizedCompany": "samsung",
+    "Position": "Phyton AI Developer",
+    "Location": "Warszawa, Wola",
+    "WorkMode": 2,
+    "SalaryFrom": 6500,
+    "SalaryTo": 8000,
+    "ApplicationDate": "2026-07-29",
+    "Status": 0,
+    "Source": null,
+    "ExternalJobId": "3",
+    "History": [
+      {
+        "Status": 0,
+        "Date": "2026-07-29",
+        "Note": null
       }
     ],
     "CurrentStatus": 0,
-    "Url": null,
+    "Url": "Pracuj.pl",
     "Notes": null
   }
 ]

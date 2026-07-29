@@ -22,17 +22,94 @@
         <div class="dashboard-header">
 
             <div>
-                <h1>Application Tracker</h1>
+                <div class="dashboard-title">
 
-                <p>
+                    <h1>
+                        Application Tracker
+                    </h1>
 
-                    Masz obecnie
+                    <p class="dashboard-subtitle">
 
-                    <strong>@dashboard.Summary.ActiveApplications</strong>
+                        @dashboard.WelcomeMessage
 
-                    aktywnych procesów rekrutacyjnych.
+                    </p>
 
-                </p>
+                </div>
+
+                <div class="dashboard-overview">
+
+                    <div>
+
+                        <span class="overview-number">
+
+                            @dashboard.Summary.TotalApplications
+
+                        </span>
+
+                        <span>
+
+                            aplikacji
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <span class="overview-number">
+
+                            @dashboard.Summary.ActiveApplications
+
+                        </span>
+
+                        <span>
+
+                            aktywnych procesów
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <span class="overview-number">
+
+                            @dashboard.Summary.OfferCount
+
+                        </span>
+
+                        <span>
+
+                            ofert
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <span class="overview-number">
+
+                            @dashboard.Summary.GhostApplications
+
+                        </span>
+
+                        <span>
+
+                            ghost jobs
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="dashboard-updated">
+
+                    Ostatnia aktualizacja:
+                    @dashboard.LastUpdated.ToString("dd.MM.yyyy HH:mm")
+
+                </div>
             </div>
 
         </div>

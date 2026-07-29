@@ -1,4 +1,5 @@
-﻿using ApplicationTracker.Models.Dashboard;
+﻿using ApplicationTracker.Models;
+using ApplicationTracker.Models.Dashboard;
 using ApplicationTracker.Services.Jobs;
 
 namespace ApplicationTracker.Services.Dashboard;
@@ -46,6 +47,7 @@ public class DashboardService
         _companyInsightsCalculator = companyInsightsCalculator;
     }
 
+    [Obsolete]
     public async Task<DashboardModel> GetDashboardAsync()
     {
         var jobs = await _jobService.GetAllAsync();
@@ -62,6 +64,15 @@ public class DashboardService
     _sourceAnalyticsCalculator.Calculate(jobs);
         var companyInsights =
     _companyInsightsCalculator.Calculate(jobs);
+
+        var now = DateTime.Now;
+
+        var welcomeMessage =
+            jobs.Any(j => j.Status == ApplicationStatus.Offer)
+                ? "Świetna robota! Masz aktywne oferty pracy."
+                : jobs.Any(j => j.Status == ApplicationStatus.Interview)
+                    ? "Masz aktywne procesy rekrutacyjne."
+                    : "Powodzenia w kolejnych aplikacjach!";
 
         return new DashboardModel
         {
@@ -89,6 +100,9 @@ public class DashboardService
 
             SourceAnalytics = sourceAnalytics,
             CompanyInsights = companyInsights,
+            LastUpdated = now,
+
+            WelcomeMessage = welcomeMessage,
         };
     }
 }

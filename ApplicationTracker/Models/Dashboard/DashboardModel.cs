@@ -25,4 +25,8 @@ public class DashboardModel
     public SourceAnalyticsModel SourceAnalytics { get; set; } = new();
 
     public CompanyInsightsModel CompanyInsights { get; set; } = new();
+
+    public DateTime LastUpdated { get; set; }
+
+    public string WelcomeMessage { get; set; } = string.Empty;
 }
