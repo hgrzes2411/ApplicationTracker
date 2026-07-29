@@ -178,3 +178,50 @@
     .timeline-content small {
         color: #64748b;
     }
+.dashboard-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+
+    .dashboard-row > * {
+        min-width: 0;
+    }
+
+
+
+@media(max-width: 1200px) {
+
+    .dashboard-row {
+        grid-template-columns: 1fr;
+    }
+}
+.chart-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    height: 400px;
+}
+
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+
+    .chart-container canvas {
+        max-height: 100%;
+    }
+.table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+.table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+}

@@ -1,0 +1,56 @@
+@using ApplicationTracker.Models.Dashboard
+
+<div class="section-card">
+
+    <h2>🎯 Skuteczność rekrutacji</h2>
+
+
+    <div class="success-rate-container">
+
+
+        <div class="success-rate-value">
+
+            @Model.SuccessRate.ToString("F1")%
+
+        </div>
+
+
+        <p>
+            Aplikacje zakończone ofertą
+        </p>
+
+
+    </div>
+
+
+    <div class="success-rate-details">
+
+        <div>
+            <strong>@Model.TotalApplications</strong>
+
+            <span>
+                Wszystkie aplikacje
+            </span>
+        </div>
+
+
+        <div>
+            <strong>@Model.SuccessfulApplications</strong>
+
+            <span>
+                Oferty
+            </span>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+@code
+{
+    [Parameter]
+    public SuccessRateDashboardModel Model { get; set; } = new();
+}

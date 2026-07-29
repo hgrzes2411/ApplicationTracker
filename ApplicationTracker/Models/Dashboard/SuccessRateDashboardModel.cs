@@ -15,4 +15,8 @@ public class SuccessRateDashboardModel
     public double InterviewRate { get; set; }
 
     public double OfferRate { get; set; }
+
+    public double SuccessRate => OfferRate;
+
+    public int SuccessfulApplications => Offers;
 }
