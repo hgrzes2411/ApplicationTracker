@@ -5,6 +5,7 @@ using ApplicationTracker.Services.Dashboard;
 using ApplicationTracker.Services.GhostDetection.Rules;
 using ApplicationTracker.Services.Jobs;
 using ApplicationTracker.Services.Statistics;
+using ApplicationTracker.Services.Export;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<JsonRepository>();
@@ -29,6 +30,7 @@ builder.Services.AddScoped<RecruitmentFunnelCalculator>();
 builder.Services.AddScoped<RecruitmentTimelineCalculator>();
 builder.Services.AddScoped<SourceAnalyticsCalculator>();
 builder.Services.AddScoped<CompanyInsightsCalculator>();
+builder.Services.AddScoped<CsvExportService>();
 
 
 // Add services to the container.
