@@ -1,0 +1,78 @@
+﻿@using ApplicationTracker.Models.Dashboard
+<div class="section-card">
+
+    <h2>Widoczne sekcje</h2>
+
+    <div class="settings-grid">
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowSummary" />
+            Podsumowanie
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowCharts" />
+            Wykresy
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowCompanyAnalytics" />
+            Company Analytics
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowCompanyInsights" />
+            Company Insights
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowRecommendations" />
+            Recommendations
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowResponseAnalytics" />
+            Response Analytics
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowSourceAnalytics" />
+            Source Analytics
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowRecentActivity" />
+            Recent Activity
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowSuccessRate" />
+            Success Rate
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   @bind="Settings.ShowRecruitmentFunnel" />
+            Recruitment Funnel
+        </label>
+
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter]
+
+    public DashboardSettings Settings { get; set; } = default!;
+
+}

@@ -19,9 +19,15 @@
     }
     else
     {
-        <div class="dashboard-header">
 
-            <div>
+        <DashboardSettingsPanel Settings="settings" />
+
+
+        @if(settings.ShowSummary)
+        {
+
+            <div class="dashboard-header">
+
                 <div class="dashboard-title">
 
                     <h1>
@@ -29,80 +35,59 @@
                     </h1>
 
                     <p class="dashboard-subtitle">
-
                         @dashboard.WelcomeMessage
-
                     </p>
 
                 </div>
 
+
                 <div class="dashboard-overview">
 
                     <div>
-
                         <span class="overview-number">
-
                             @dashboard.Summary.TotalApplications
-
                         </span>
 
                         <span>
-
                             aplikacji
-
                         </span>
-
                     </div>
 
+
                     <div>
-
                         <span class="overview-number">
-
                             @dashboard.Summary.ActiveApplications
-
                         </span>
 
                         <span>
-
                             aktywnych procesów
-
                         </span>
-
                     </div>
 
+
                     <div>
-
                         <span class="overview-number">
-
                             @dashboard.Summary.OfferCount
-
                         </span>
 
                         <span>
-
                             ofert
-
                         </span>
-
                     </div>
 
+
                     <div>
-
                         <span class="overview-number">
-
                             @dashboard.Summary.GhostApplications
-
                         </span>
 
                         <span>
-
                             ghost jobs
-
                         </span>
-
                     </div>
 
                 </div>
+
 
                 <div class="dashboard-updated">
 
@@ -110,92 +95,183 @@
                     @dashboard.LastUpdated.ToString("dd.MM.yyyy HH:mm")
 
                 </div>
+
             </div>
 
-        </div>
 
-        <h2>Podsumowanie</h2>
 
-        <div class="dashboard-grid">
+            <h2>Podsumowanie</h2>
 
-            <StatCard Icon="📄"
-                      Title="Aplikacje"
-                      Value="@dashboard.Summary.TotalApplications.ToString()" />
 
-            <StatCard Icon="🟢"
-                      Title="Aktywne"
-                      Value="@dashboard.Summary.ActiveApplications.ToString()" />
+            <div class="dashboard-grid">
 
-            <StatCard Icon="🤝"
-                      Title="Interview"
-                      Value="@dashboard.Summary.InterviewCount.ToString()" />
+                <StatCard Icon="📄"
+                          Title="Aplikacje"
+                          Value="@dashboard.Summary.TotalApplications.ToString()" />
 
-            <StatCard Icon="🏆"
-                      Title="Oferty"
-                      Value="@dashboard.Summary.OfferCount.ToString()" />
 
-            <StatCard Icon="❌"
-                      Title="Odrzucone"
-                      Value="@dashboard.Summary.RejectedCount.ToString()" />
+                <StatCard Icon="🟢"
+                          Title="Aktywne"
+                          Value="@dashboard.Summary.ActiveApplications.ToString()" />
 
-            <StatCard Icon="👻"
-                      Title="Ghost Jobs"
-                      Value="@dashboard.Summary.GhostApplications.ToString()" />
 
-        </div>
+                <StatCard Icon="🤝"
+                          Title="Interview"
+                          Value="@dashboard.Summary.InterviewCount.ToString()" />
 
-        <DashboardRow>
 
-            <SuccessRate
-                Model="@dashboard.SuccessRate" />
+                <StatCard Icon="🏆"
+                          Title="Oferty"
+                          Value="@dashboard.Summary.OfferCount.ToString()" />
 
-            <StatusChart
-                Data="@dashboard.StatusChart" />
 
-        </DashboardRow>
+                <StatCard Icon="❌"
+                          Title="Odrzucone"
+                          Value="@dashboard.Summary.RejectedCount.ToString()" />
 
-        <DashboardRow>
 
-            <RecruitmentFunnel
-                Model="@dashboard.RecruitmentFunnel" />
+                <StatCard Icon="👻"
+                          Title="Ghost Jobs"
+                          Value="@dashboard.Summary.GhostApplications.ToString()" />
 
-            <RecruitmentTimeline
-                Model="@dashboard.Timeline" />
+            </div>
 
-        </DashboardRow>
+        }
 
-        <DashboardRow>
 
-            <ResponseAnalytics
-                Model="@dashboard.ResponseAnalytics" />
 
-            <SourceAnalytics
-                Model="@dashboard.SourceAnalytics" />
+        @if(settings.ShowCharts)
+        {
 
-        </DashboardRow>
+            <DashboardRow>
 
-        <CompanyAnalytics
-            Model="@dashboard.CompanyAnalytics" />
 
-        <CompanyInsights
-            Model="@dashboard.CompanyInsights" />
+                @if(settings.ShowSuccessRate &&
+                    dashboard.SuccessRate != null)
+                {
+                    <SuccessRate
+                        Model="@dashboard.SuccessRate" />
+                }
 
-        <RecommendationTable
-            Model="@dashboard.Recommendations" />
 
-        <RecentActivity
-            Model="@dashboard.RecentActivity" />
+                @if(dashboard.StatusChart != null)
+                {
+                    <StatusChart
+                        Data="@dashboard.StatusChart" />
+                }
+
+
+            </DashboardRow>
+
+
+
+            <DashboardRow>
+
+
+                @if(settings.ShowRecruitmentFunnel &&
+                    dashboard.RecruitmentFunnel != null)
+                {
+                    <RecruitmentFunnel
+                        Model="@dashboard.RecruitmentFunnel" />
+                }
+
+
+                @if(dashboard.Timeline != null)
+                {
+                    <RecruitmentTimeline
+                        Model="@dashboard.Timeline" />
+                }
+
+
+            </DashboardRow>
+
+        }
+
+
+
+        @if(settings.ShowResponseAnalytics ||
+            settings.ShowSourceAnalytics)
+        {
+
+            <DashboardRow>
+
+
+                @if(settings.ShowResponseAnalytics &&
+                    dashboard.ResponseAnalytics != null)
+                {
+                    <ResponseAnalytics
+                        Model="@dashboard.ResponseAnalytics" />
+                }
+
+
+                @if(settings.ShowSourceAnalytics &&
+                    dashboard.SourceAnalytics != null)
+                {
+                    <SourceAnalytics
+                        Model="@dashboard.SourceAnalytics" />
+                }
+
+
+            </DashboardRow>
+
+        }
+
+
+
+        @if(settings.ShowCompanyAnalytics &&
+            dashboard.CompanyAnalytics != null)
+        {
+            <CompanyAnalytics
+                Model="@dashboard.CompanyAnalytics" />
+        }
+
+
+
+        @if(settings.ShowCompanyInsights &&
+            dashboard.CompanyInsights != null)
+        {
+            <CompanyInsights
+                Model="@dashboard.CompanyInsights" />
+        }
+
+
+
+        @if(settings.ShowRecommendations &&
+            dashboard.Recommendations != null)
+        {
+            <RecommendationTable
+                Model="@dashboard.Recommendations" />
+        }
+
+
+
+        @if(settings.ShowRecentActivity &&
+            dashboard.RecentActivity != null)
+        {
+            <RecentActivity
+                Model="@dashboard.RecentActivity" />
+        }
+
 
     }
 
 </div>
 
+
 @code
 {
+
     private DashboardModel? dashboard;
+
+
+    private DashboardSettings settings = new();
+
 
     protected override async Task OnInitializedAsync()
     {
+
         dashboard = await DashboardService.GetDashboardAsync();
+
     }
+
 }

@@ -1,18 +1,20 @@
 ﻿<div class="dashboard-card">
 
-    <div class="dashboard-card-title">
-        @Title
+    <div class="stat-card-accent"
+         style="background:@AccentColor">
     </div>
 
-    <div class="dashboard-card-value">
-        @Value
-    </div>
     <div class="stat-icon">
 
         @Icon
 
     </div>
-
+    <div class="dashboard-card-value">
+        @Value
+    </div>
+    <div class="dashboard-card-title">
+        @Title
+    </div>
 </div>
 
 @code {
@@ -24,7 +26,9 @@
     public string Value { get; set; } = "";
 
     [Parameter]
-
     public string Icon { get; set; } = "";
+
+    [Parameter]
+    public string AccentColor { get; set; } = "#2563eb";
 
 }
