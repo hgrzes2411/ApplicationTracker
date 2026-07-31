@@ -1,8 +1,8 @@
 ﻿using ApplicationTracker.Models;
+using ApplicationTracker.Models.Filters;
 
 namespace ApplicationTracker.Services.Jobs
 {
-
     public class JobService
     {
         private readonly JsonRepository _repository;
@@ -12,12 +12,10 @@ namespace ApplicationTracker.Services.Jobs
             _repository = repository;
         }
 
-
         public async Task<List<JobApplication>> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
-
 
         public async Task AddAsync(JobApplication job)
         {
@@ -29,7 +27,6 @@ namespace ApplicationTracker.Services.Jobs
 
             await _repository.SaveAsync(jobs);
         }
-
 
         public async Task DeleteAsync(Guid id)
         {
@@ -44,6 +41,7 @@ namespace ApplicationTracker.Services.Jobs
                 await _repository.SaveAsync(jobs);
             }
         }
+
         public async Task UpdateAsync(JobApplication updatedJob)
         {
             var jobs = await _repository.GetAllAsync();

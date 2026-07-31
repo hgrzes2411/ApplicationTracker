@@ -25,3 +25,19 @@ td {
 tr:hover {
     background: #243244;
 }
+.filters-panel {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+    .filters-panel input {
+        flex: 1;
+        min-width: 280px;
+    }
+
+    .filters-panel select {
+        width: 220px;
+    }

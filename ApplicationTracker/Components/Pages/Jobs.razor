@@ -3,97 +3,191 @@
 @rendermode InteractiveServer
 
 @using ApplicationTracker.Models
+@using ApplicationTracker.Models.Filters
 @using ApplicationTracker.Services
+@using ApplicationTracker.Services.Export
 @using ApplicationTracker.Services.Jobs
 
 @inject JobService JobService
+@inject JobFilteringService JobFilteringService
 @inject GhostDetector GhostDetector
+@inject CsvExportService CsvExportService
+@inject IJSRuntime JS
 
 <PageTitle>Aplikacje</PageTitle>
 
 <h1>Moje aplikacje</h1>
 
+<div class="mb-3">
+
+    <button class="btn btn-primary"
+            @onclick="ExportCsv">
+
+        📤 Eksportuj CSV
+
+    </button>
+
+</div>
+
+<div class="filters-panel">
+
+    <input class="form-control"
+           placeholder="🔍 Szukaj firmy lub stanowiska..."
+           @bind="filter.SearchText"
+           @bind:event="oninput" />
+
+    <select class="form-select"
+            @bind="selectedStatus">
+
+        <option value="">Wszystkie statusy</option>
+
+        @foreach (var status in Enum.GetValues<ApplicationStatus>())
+        {
+            <option value="@status">
+                @status
+            </option>
+        }
+
+    </select>
+
+    <button class="btn btn-secondary"
+            @onclick="ClearFilters">
+
+        Wyczyść filtry
+
+    </button>
+
+</div>
+
 @if (jobs == null)
 {
     <p>Ładowanie...</p>
 }
-else if (!jobs.Any())
+else if (!FilteredJobs.Any())
 {
-    <p>Brak aplikacji.</p>
+    <p>Brak aplikacji spełniających wybrane kryteria.</p>
 }
 else
 {
     <table>
+
         <thead>
+
             <tr>
+
                 <th>Firma</th>
+
                 <th>Stanowisko</th>
+
                 <th>Data</th>
+
                 <th>Status</th>
+
                 <th>Tryb</th>
-                <th>Widełki</th>
+
                 <th>Ghost Score</th>
+
+                <th>Powody</th>
+
                 <th>Ryzyko</th>
+
                 <th>Akcje</th>
+
             </tr>
+
         </thead>
 
         <tbody>
-            @foreach (var job in jobs)
+
+            @foreach (var job in FilteredJobs)
             {
                 var analysis = GhostDetector.Analyze(job, jobs);
+
                 <tr>
+
                     <td>@job.Company</td>
+
                     <td>@job.Position</td>
-                    <td>@job.ApplicationDate</td>
+
+                    <td>@job.ApplicationDate.ToString("dd.MM.yyyy")</td>
+
                     <td>@job.CurrentStatus</td>
+
                     <td>@job.WorkMode</td>
-                     <td>
-                     @analysis.Score
-                     </td>
+
+                    <td>@analysis.Score</td>
+
                     <td>
+
                         <div>
+
                             <strong>Powody:</strong>
 
                             <ul>
+
                                 @foreach (var rule in analysis.Rules.Where(r => r.Triggered))
                                 {
                                     <li>
-                                        @rule.Description
-                                        (@rule.Score)
+                                        @rule.Description (@rule.Score)
                                     </li>
                                 }
+
                             </ul>
+
                         </div>
+
                     </td>
-                     <td>
-                     @analysis.RiskLevel
-                     </td>
+
+                    <td>@analysis.RiskLevel</td>
+
                     <td>
+
                         <a href="/jobs/edit/@job.Id">
+
                             Edytuj
+
                         </a>
 
+                        |
+
                         <button @onclick="() => DeleteJob(job.Id)">
+
                             Usuń
+
                         </button>
+
                     </td>
+
                 </tr>
             }
+
         </tbody>
+
     </table>
 }
 
-
-@code {
-
+@code
+{
     private List<JobApplication>? jobs;
 
+    private JobFilter filter = new();
+
+    private ApplicationStatus? selectedStatus
+    {
+        get => filter.Status;
+        set => filter.Status = value;
+    }
+
+    private IEnumerable<JobApplication> FilteredJobs =>
+       JobFilteringService.FilterJobs(
+           jobs ?? Enumerable.Empty<JobApplication>(),
+           filter);
 
     protected override async Task OnInitializedAsync()
     {
         jobs = await JobService.GetAllAsync();
     }
+
     private async Task DeleteJob(Guid id)
     {
         await JobService.DeleteAsync(id);
@@ -101,4 +195,20 @@ else
         jobs = await JobService.GetAllAsync();
     }
 
+    private async Task ExportCsv()
+    {
+        var allJobs = await JobService.GetAllAsync();
+
+        var csv = CsvExportService.GenerateCsv(allJobs);
+
+        await JS.InvokeVoidAsync(
+            "downloadFile",
+            $"applications_export_{DateTime.Now:yyyy-MM-dd}.csv",
+            csv);
+    }
+
+    private void ClearFilters()
+    {
+        filter = new JobFilter();
+    }
 }
