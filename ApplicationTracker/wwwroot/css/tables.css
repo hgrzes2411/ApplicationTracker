@@ -41,3 +41,11 @@ tr:hover {
     .filters-panel select {
         width: 220px;
     }
+.results-counter {
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+}
+
+.ghost-filter {
+    width: 120px;
+}

@@ -50,6 +50,58 @@
 
     </select>
 
+    <select class="form-select"
+            @bind="filter.Company">
+
+        <option value="">Wszystkie firmy</option>
+
+        @foreach (var company in Companies)
+        {
+            <option value="@company">
+                @company
+            </option>
+        }
+
+    </select>
+
+    <select class="form-select"
+            @bind="filter.Source">
+
+        <option value="">Wszystkie źródła</option>
+
+        @foreach (var source in Sources)
+        {
+            <option value="@source">
+                @source
+            </option>
+        }
+
+    </select>
+
+    <select class="form-select"
+            @bind="filter.WorkMode">
+
+        <option value="">Wszystkie tryby</option>
+
+        @foreach (var mode in Enum.GetValues<WorkMode>())
+        {
+            <option value="@mode">
+                @mode
+            </option>
+        }
+
+    </select>
+
+    <input type="number"
+           class="form-control ghost-filter"
+           placeholder="Ghost od"
+           @bind="filter.MinGhostScore" />
+
+    <input type="number"
+           class="form-control ghost-filter"
+           placeholder="Ghost do"
+           @bind="filter.MaxGhostScore" />
+
     <button class="btn btn-secondary"
             @onclick="ClearFilters">
 
@@ -69,6 +121,20 @@ else if (!FilteredJobs.Any())
 }
 else
 {
+    <p class="results-counter">
+
+        Wyświetlono
+
+        <strong>@FilteredJobs.Count()</strong>
+
+        z
+
+        <strong>@jobs.Count</strong>
+
+        aplikacji.
+
+    </p>
+
     <table>
 
         <thead>
@@ -138,7 +204,11 @@ else
 
                     </td>
 
-                    <td>@analysis.RiskLevel</td>
+                    <td>
+
+                        @analysis.RiskLevel
+
+                    </td>
 
                     <td>
 
@@ -179,9 +249,23 @@ else
     }
 
     private IEnumerable<JobApplication> FilteredJobs =>
-       JobFilteringService.FilterJobs(
-           jobs ?? Enumerable.Empty<JobApplication>(),
-           filter);
+        JobFilteringService.FilterJobs(
+            jobs ?? Enumerable.Empty<JobApplication>(),
+            filter);
+
+    private IEnumerable<string> Companies =>
+        jobs?
+            .Select(j => j.Company)
+            .Distinct()
+            .OrderBy(c => c)
+        ?? Enumerable.Empty<string>();
+
+    private IEnumerable<string> Sources =>
+        jobs?
+            .Select(j => j.Source)
+            .Distinct()
+            .OrderBy(s => s)
+        ?? Enumerable.Empty<string>();
 
     protected override async Task OnInitializedAsync()
     {

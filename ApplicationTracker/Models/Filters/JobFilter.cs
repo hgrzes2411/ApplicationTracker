@@ -1,4 +1,5 @@
 ﻿using ApplicationTracker.Models;
+using ApplicationTracker.Models.Sorting;
 namespace ApplicationTracker.Models.Filters
 {
 
@@ -17,5 +18,8 @@ namespace ApplicationTracker.Models.Filters
         public int? MinGhostScore { get; set; }
 
         public int? MaxGhostScore { get; set; }
+
+        public JobSortOption SortOption { get; set; }
+    = JobSortOption.ApplicationDateDescending;
     }
 }

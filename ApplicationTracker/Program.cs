@@ -31,6 +31,7 @@ builder.Services.AddScoped<RecruitmentTimelineCalculator>();
 builder.Services.AddScoped<SourceAnalyticsCalculator>();
 builder.Services.AddScoped<CompanyInsightsCalculator>();
 builder.Services.AddScoped<CsvExportService>();
+builder.Services.AddScoped<JobFilteringService>();
 
 
 // Add services to the container.
