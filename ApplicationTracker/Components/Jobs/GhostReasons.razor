@@ -1,0 +1,30 @@
+﻿@using ApplicationTracker.Services
+@using ApplicationTracker.Services.GhostDetection
+
+<div>
+
+    <strong>Powody:</strong>
+
+    <ul>
+
+        @foreach (var rule in Analysis.Rules.Where(r => r.Triggered))
+        {
+            <li>
+
+                @rule.Description (@rule.Score)
+
+            </li>
+        }
+
+    </ul>
+
+</div>
+
+@code
+{
+
+    [Parameter]
+
+    public GhostAnalysisResult Analysis { get; set; } = new();
+
+}

@@ -1,0 +1,118 @@
+﻿@using ApplicationTracker.Models
+@using ApplicationTracker.Models.Filters
+
+<div class="filters-panel">
+
+    <input class="form-control"
+           placeholder="🔍 Szukaj firmy lub stanowiska..."
+           @bind="Filter.SearchText"
+           @bind:event="oninput" />
+
+    <select class="form-select"
+            @bind="SelectedStatus">
+
+        <option value="">Wszystkie statusy</option>
+
+        @foreach (var status in Enum.GetValues<ApplicationStatus>())
+        {
+            <option value="@status">
+                @status
+            </option>
+        }
+
+    </select>
+
+    <select class="form-select"
+            @bind="Filter.Company">
+
+        <option value="">Wszystkie firmy</option>
+
+        @foreach (var company in Companies)
+        {
+            <option value="@company">
+                @company
+            </option>
+        }
+
+    </select>
+
+    <select class="form-select"
+            @bind="Filter.Source">
+
+        <option value="">Wszystkie źródła</option>
+
+        @foreach (var source in Sources)
+        {
+            <option value="@source">
+                @source
+            </option>
+        }
+
+    </select>
+
+    <select class="form-select"
+            @bind="Filter.WorkMode">
+
+        <option value="">Wszystkie tryby</option>
+
+        @foreach (var mode in Enum.GetValues<WorkMode>())
+        {
+            <option value="@mode">
+                @mode
+            </option>
+        }
+
+    </select>
+
+    <input type="number"
+           class="form-control ghost-filter"
+           placeholder="Ghost od"
+           @bind="Filter.MinGhostScore" />
+
+    <input type="number"
+           class="form-control ghost-filter"
+           placeholder="Ghost do"
+           @bind="Filter.MaxGhostScore" />
+
+    <button class="btn btn-secondary"
+            @onclick="ResetClicked">
+
+        Wyczyść filtry
+
+    </button>
+
+</div>
+
+@code
+{
+
+    [Parameter]
+
+    public JobFilter Filter { get; set; } = new();
+
+    [Parameter]
+
+    public IEnumerable<string> Companies { get; set; }
+        = Enumerable.Empty<string>();
+
+    [Parameter]
+
+    public IEnumerable<string> Sources { get; set; }
+        = Enumerable.Empty<string>();
+
+    [Parameter]
+
+    public EventCallback Reset { get; set; }
+
+    private ApplicationStatus? SelectedStatus
+    {
+        get => Filter.Status;
+        set => Filter.Status = value;
+    }
+
+    private async Task ResetClicked()
+    {
+        await Reset.InvokeAsync();
+    }
+
+}

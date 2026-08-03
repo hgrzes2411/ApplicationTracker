@@ -2,17 +2,19 @@
 
 @rendermode InteractiveServer
 
+@using ApplicationTracker.Components.Jobs
 @using ApplicationTracker.Models
 @using ApplicationTracker.Models.Filters
-@using ApplicationTracker.Services
+@using ApplicationTracker.Models.Sorting
 @using ApplicationTracker.Services.Export
+@using ApplicationTracker.Services.GhostDetection
 @using ApplicationTracker.Services.Jobs
 
 @inject JobService JobService
 @inject JobFilteringService JobFilteringService
-@inject GhostDetector GhostDetector
 @inject CsvExportService CsvExportService
 @inject IJSRuntime JS
+@inject GhostAnalysisCacheService GhostAnalysisCache
 
 <PageTitle>Aplikacje</PageTitle>
 
@@ -29,87 +31,17 @@
 
 </div>
 
-<div class="filters-panel">
+<JobFilters
 
-    <input class="form-control"
-           placeholder="🔍 Szukaj firmy lub stanowiska..."
-           @bind="filter.SearchText"
-           @bind:event="oninput" />
+    Filter="filter"
 
-    <select class="form-select"
-            @bind="selectedStatus">
+    Companies="Companies"
 
-        <option value="">Wszystkie statusy</option>
+    Sources="Sources"
 
-        @foreach (var status in Enum.GetValues<ApplicationStatus>())
-        {
-            <option value="@status">
-                @status
-            </option>
-        }
+    Reset="ClearFilters"
 
-    </select>
-
-    <select class="form-select"
-            @bind="filter.Company">
-
-        <option value="">Wszystkie firmy</option>
-
-        @foreach (var company in Companies)
-        {
-            <option value="@company">
-                @company
-            </option>
-        }
-
-    </select>
-
-    <select class="form-select"
-            @bind="filter.Source">
-
-        <option value="">Wszystkie źródła</option>
-
-        @foreach (var source in Sources)
-        {
-            <option value="@source">
-                @source
-            </option>
-        }
-
-    </select>
-
-    <select class="form-select"
-            @bind="filter.WorkMode">
-
-        <option value="">Wszystkie tryby</option>
-
-        @foreach (var mode in Enum.GetValues<WorkMode>())
-        {
-            <option value="@mode">
-                @mode
-            </option>
-        }
-
-    </select>
-
-    <input type="number"
-           class="form-control ghost-filter"
-           placeholder="Ghost od"
-           @bind="filter.MinGhostScore" />
-
-    <input type="number"
-           class="form-control ghost-filter"
-           placeholder="Ghost do"
-           @bind="filter.MaxGhostScore" />
-
-    <button class="btn btn-secondary"
-            @onclick="ClearFilters">
-
-        Wyczyść filtry
-
-    </button>
-
-</div>
+/>
 
 @if (jobs == null)
 {
@@ -117,7 +49,7 @@
 }
 else if (!FilteredJobs.Any())
 {
-    <p>Brak aplikacji spełniających wybrane kryteria.</p>
+    <EmptyJobsState />
 }
 else
 {
@@ -135,117 +67,48 @@ else
 
     </p>
 
-    <table>
+    <JobsTable
 
-        <thead>
+        Jobs="FilteredJobs"
 
-            <tr>
+        GhostCache="GhostAnalysisCache"
 
-                <th>Firma</th>
+        Delete="OpenDeleteDialog"
 
-                <th>Stanowisko</th>
-
-                <th>Data</th>
-
-                <th>Status</th>
-
-                <th>Tryb</th>
-
-                <th>Ghost Score</th>
-
-                <th>Powody</th>
-
-                <th>Ryzyko</th>
-
-                <th>Akcje</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @foreach (var job in FilteredJobs)
-            {
-                var analysis = GhostDetector.Analyze(job, jobs);
-
-                <tr>
-
-                    <td>@job.Company</td>
-
-                    <td>@job.Position</td>
-
-                    <td>@job.ApplicationDate.ToString("dd.MM.yyyy")</td>
-
-                    <td>@job.CurrentStatus</td>
-
-                    <td>@job.WorkMode</td>
-
-                    <td>@analysis.Score</td>
-
-                    <td>
-
-                        <div>
-
-                            <strong>Powody:</strong>
-
-                            <ul>
-
-                                @foreach (var rule in analysis.Rules.Where(r => r.Triggered))
-                                {
-                                    <li>
-                                        @rule.Description (@rule.Score)
-                                    </li>
-                                }
-
-                            </ul>
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        @analysis.RiskLevel
-
-                    </td>
-
-                    <td>
-
-                        <a href="/jobs/edit/@job.Id">
-
-                            Edytuj
-
-                        </a>
-
-                        |
-
-                        <button @onclick="() => DeleteJob(job.Id)">
-
-                            Usuń
-
-                        </button>
-
-                    </td>
-
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
+    />
 }
 
+<DeleteConfirmationDialog
+
+    Visible="showDeleteDialog"
+
+    Job="jobToDelete"
+
+    OnConfirm="ConfirmDelete"
+
+    OnCancel="CancelDelete"
+
+/>
 @code
 {
     private List<JobApplication>? jobs;
 
     private JobFilter filter = new();
 
+    private bool showDeleteDialog;
+
+    private JobApplication? jobToDelete;
+
     private ApplicationStatus? selectedStatus
     {
         get => filter.Status;
         set => filter.Status = value;
+    }
+
+    private JobSortOption selectedSort
+    {
+        get => filter.SortOption;
+        set => filter.SortOption = value;
     }
 
     private IEnumerable<JobApplication> FilteredJobs =>
@@ -272,11 +135,29 @@ else
         jobs = await JobService.GetAllAsync();
     }
 
-    private async Task DeleteJob(Guid id)
+    private void OpenDeleteDialog(JobApplication job)
     {
-        await JobService.DeleteAsync(id);
+        jobToDelete = job;
+        showDeleteDialog = true;
+    }
+
+    private void CancelDelete()
+    {
+        showDeleteDialog = false;
+        jobToDelete = null;
+    }
+
+    private async Task ConfirmDelete()
+    {
+        if (jobToDelete is null)
+            return;
+
+        await JobService.DeleteAsync(jobToDelete.Id);
 
         jobs = await JobService.GetAllAsync();
+
+        showDeleteDialog = false;
+        jobToDelete = null;
     }
 
     private async Task ExportCsv()
@@ -293,6 +174,9 @@ else
 
     private void ClearFilters()
     {
-        filter = new JobFilter();
+        filter = new JobFilter
+        {
+            SortOption = JobSortOption.ApplicationDateDescending
+        };
     }
 }

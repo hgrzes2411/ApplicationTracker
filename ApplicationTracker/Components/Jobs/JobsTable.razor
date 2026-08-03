@@ -1,0 +1,105 @@
+﻿@using ApplicationTracker.Models
+@using ApplicationTracker.Services.GhostDetection
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Firma</th>
+
+            <th>Stanowisko</th>
+
+            <th>Data</th>
+
+            <th>Status</th>
+
+            <th>Tryb</th>
+
+            <th>Ghost Score</th>
+
+            <th>Powody</th>
+
+            <th>Ryzyko</th>
+
+            <th>Akcje</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var job in Jobs)
+        {
+            var analysis = GhostCache.Get(job.Id);
+
+            <tr>
+
+                <td>@job.Company</td>
+
+                <td>@job.Position</td>
+
+                <td>@job.ApplicationDate.ToString("dd.MM.yyyy")</td>
+
+                <td>@job.CurrentStatus</td>
+
+                <td>@job.WorkMode</td>
+
+                <td>@analysis.Score</td>
+
+                <td>
+
+                    <GhostReasons Analysis="analysis" />
+
+                </td>
+
+                <td>
+
+                    @analysis.RiskLevel
+
+                </td>
+
+                <td>
+
+                    <a href="/jobs/edit/@job.Id">
+
+                        Edytuj
+
+                    </a>
+
+                    |
+
+                    <button @onclick="() => Delete.InvokeAsync(job)">
+
+                        Usuń
+
+                    </button>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+@code
+{
+
+    [Parameter]
+
+    public IEnumerable<JobApplication> Jobs { get; set; }
+        = Enumerable.Empty<JobApplication>();
+
+    [Parameter]
+
+    public GhostAnalysisCacheService GhostCache { get; set; } = default!;
+
+    [Parameter]
+
+    public EventCallback<JobApplication> Delete { get; set; }
+
+}

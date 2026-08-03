@@ -1,0 +1,54 @@
+﻿@using ApplicationTracker.Models
+
+@if (Visible)
+{
+    <div class="modal-backdrop show"></div>
+    <div class="modal show d-block" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Potwierdzenie usunięcia</h5>
+                    <button type="button" class="btn-close" @onclick="OnCancelClicked"></button>
+                </div>
+                <div class="modal-body">
+                    @if (Job != null)
+                    {
+                        <p>Czy na pewno chcesz usunąć aplikację do firmy <strong>@Job.Company</strong> na stanowisko <strong>@Job.Position</strong>?</p>
+                    }
+                    else
+                    {
+                        <p>Czy na pewno chcesz usunąć tę aplikację?</p>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="OnCancelClicked">Anuluj</button>
+                    <button type="button" class="btn btn-danger" @onclick="OnConfirmClicked">Usuń</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public JobApplication? Job { get; set; }
+
+    [Parameter]
+    public EventCallback OnConfirm { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    private async Task OnConfirmClicked()
+    {
+        await OnConfirm.InvokeAsync();
+    }
+
+    private async Task OnCancelClicked()
+    {
+        await OnCancel.InvokeAsync();
+    }
+}
