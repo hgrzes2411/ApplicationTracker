@@ -1,10 +1,11 @@
-@import url("variables.css");
-@import url("layout.css");
-@import url("dashboard.css");
-@import url("tables.css");
-@import url("badges.css");
-@import url("forms.css");
-@import url("animations.css");
+@import "variables.css";
+@import "design-system.css";
+@import "layout.css";
+@import "dashboard.css";
+@import "tables.css";
+@import "forms.css";
+@import "badges.css";
+@import "animations.css";
 
 :root {
     --bg-primary: #0f172a;
