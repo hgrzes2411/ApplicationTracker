@@ -1,5 +1,7 @@
 ﻿using ApplicationTracker.Models;
 using ApplicationTracker.Models.Filters;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ApplicationTracker.Services.Jobs
 {
@@ -22,10 +24,24 @@ namespace ApplicationTracker.Services.Jobs
             var jobs = await _repository.GetAllAsync();
 
             job.Id = Guid.NewGuid();
+            job.ExternalJobId = GenerateExternalJobId(job);
 
             jobs.Add(job);
 
             await _repository.SaveAsync(jobs);
+        }
+
+        private static string GenerateExternalJobId(JobApplication job)
+        {
+            if (string.IsNullOrWhiteSpace(job.Url))
+            {
+                return job.Id.ToString("N");
+            }
+
+            var normalizedUrl = job.Url.Trim().ToLowerInvariant();
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(normalizedUrl));
+
+            return Convert.ToHexString(hash)[..12];
         }
 
         public async Task DeleteAsync(Guid id)

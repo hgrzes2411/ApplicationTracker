@@ -5,6 +5,21 @@
 .page-header {
     margin-bottom: var(--space-2xl);
 }
+.eyebrow { margin: 0 0 .5rem; color: var(--info); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.page-header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+.welcome-panel, .form-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.welcome-panel { padding: clamp(1.5rem, 4vw, 3rem); }
+.welcome-panel .page-header { margin-bottom: 1.5rem; }
+.form-card { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; padding: clamp(1.25rem, 3vw, 2rem); }
+.form-field { min-width: 0; }
+.form-field-wide { grid-column: 1 / -1; }
+.form-card > button { width: fit-content; }
+@media (max-width: 700px) {
+    .page-header-row { display: block; }
+    .page-header-row .btn { margin-top: 1rem; }
+    .form-card { grid-template-columns: 1fr; }
+    .form-field-wide { grid-column: auto; }
+}
 
 .page-title {
     font-size: 2rem;

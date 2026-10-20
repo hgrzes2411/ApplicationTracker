@@ -2,30 +2,24 @@
 
 @if (Visible)
 {
-    <div class="modal-backdrop show"></div>
-    <div class="modal show d-block" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Potwierdzenie usunięcia</h5>
-                    <button type="button" class="btn-close" @onclick="OnCancelClicked"></button>
-                </div>
-                <div class="modal-body">
-                    @if (Job != null)
-                    {
-                        <p>Czy na pewno chcesz usunąć aplikację do firmy <strong>@Job.Company</strong> na stanowisko <strong>@Job.Position</strong>?</p>
-                    }
-                    else
-                    {
-                        <p>Czy na pewno chcesz usunąć tę aplikację?</p>
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @onclick="OnCancelClicked">Anuluj</button>
-                    <button type="button" class="btn btn-danger" @onclick="OnConfirmClicked">Usuń</button>
-                </div>
+    <div class="success-notification delete-notification" role="alert" aria-live="assertive">
+        <div class="success-notification-icon" aria-hidden="true">!</div>
+        <div class="delete-notification-content">
+            <strong>Potwierdzenie usunięcia</strong>
+            @if (Job != null)
+            {
+                <p>Czy na pewno chcesz usunąć aplikację do firmy <strong>@Job.Company</strong> na stanowisko <strong>@Job.Position</strong>?</p>
+            }
+            else
+            {
+                <p>Czy na pewno chcesz usunąć tę aplikację?</p>
+            }
+            <div class="delete-notification-actions">
+                <button class="btn btn-secondary" type="button" @onclick="OnCancelClicked">Anuluj</button>
+                <button class="btn btn-danger" type="button" @onclick="OnConfirmClicked">Usuń</button>
             </div>
         </div>
+        <button class="success-notification-close" type="button" aria-label="Zamknij komunikat" @onclick="OnCancelClicked">×</button>
     </div>
 }
 

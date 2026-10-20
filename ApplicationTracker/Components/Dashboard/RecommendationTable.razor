@@ -1,9 +1,12 @@
 ﻿@using ApplicationTracker.Components.Shared
 @using ApplicationTracker.Models.Dashboard
 
-<div class="section-card">
+<section class="section-card dashboard-risk-panel">
 
-    <h2>Rekomendacje</h2>
+    <div class="dashboard-section-heading">
+        <h2><span aria-hidden="true">🚩</span> Podejrzane wymuszki</h2>
+        <span class="dashboard-section-caption">Ghost score i poziom ryzyka</span>
+    </div>
 
     @if (Model.Items.Any())
     {
@@ -51,7 +54,7 @@
                     Description="Dodaj więcej aplikacji." />
     }
 
-</div>
+</section>
 
 @code
 {

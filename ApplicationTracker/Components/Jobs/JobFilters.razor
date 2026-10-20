@@ -6,10 +6,12 @@
     <input class="form-control"
            placeholder="🔍 Szukaj firmy lub stanowiska..."
            @bind="Filter.SearchText"
-           @bind:event="oninput" />
+           @bind:event="oninput"
+           @bind:after="NotifyFilterChanged" />
 
     <select class="form-select"
-            @bind="SelectedStatus">
+             @bind="SelectedStatus"
+             @bind:after="NotifyFilterChanged">
 
         <option value="">Wszystkie statusy</option>
 
@@ -23,7 +25,8 @@
     </select>
 
     <select class="form-select"
-            @bind="Filter.Company">
+             @bind="Filter.Company"
+             @bind:after="NotifyFilterChanged">
 
         <option value="">Wszystkie firmy</option>
 
@@ -37,21 +40,8 @@
     </select>
 
     <select class="form-select"
-            @bind="Filter.Source">
-
-        <option value="">Wszystkie źródła</option>
-
-        @foreach (var source in Sources)
-        {
-            <option value="@source">
-                @source
-            </option>
-        }
-
-    </select>
-
-    <select class="form-select"
-            @bind="Filter.WorkMode">
+             @bind="Filter.WorkMode"
+             @bind:after="NotifyFilterChanged">
 
         <option value="">Wszystkie tryby</option>
 
@@ -63,16 +53,6 @@
         }
 
     </select>
-
-    <input type="number"
-           class="form-control ghost-filter"
-           placeholder="Ghost od"
-           @bind="Filter.MinGhostScore" />
-
-    <input type="number"
-           class="form-control ghost-filter"
-           placeholder="Ghost do"
-           @bind="Filter.MaxGhostScore" />
 
     <button class="btn btn-secondary"
             @onclick="ResetClicked">
@@ -96,13 +76,10 @@
         = Enumerable.Empty<string>();
 
     [Parameter]
-
-    public IEnumerable<string> Sources { get; set; }
-        = Enumerable.Empty<string>();
+    public EventCallback Reset { get; set; }
 
     [Parameter]
-
-    public EventCallback Reset { get; set; }
+    public EventCallback FilterChanged { get; set; }
 
     private ApplicationStatus? SelectedStatus
     {
@@ -113,6 +90,11 @@
     private async Task ResetClicked()
     {
         await Reset.InvokeAsync();
+    }
+
+    private Task NotifyFilterChanged()
+    {
+        return FilterChanged.InvokeAsync();
     }
 
 }

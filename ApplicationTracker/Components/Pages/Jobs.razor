@@ -18,7 +18,12 @@
 
 <PageTitle>Aplikacje</PageTitle>
 
-<h1>Moje aplikacje</h1>
+<div class="page-header page-header-row">
+    <div>
+        <h1 class="page-title">Moje aplikacje</h1>
+    </div>
+    <a class="btn btn-primary" href="/jobs/add"><i class="bi bi-plus-lg" aria-hidden="true"></i> Dodaj aplikację</a>
+</div>
 
 <div class="mb-3">
 
@@ -37,9 +42,9 @@
 
     Companies="Companies"
 
-    Sources="Sources"
-
     Reset="ClearFilters"
+
+    FilterChanged="FiltersChanged"
 
 />
 
@@ -123,16 +128,14 @@ else
             .OrderBy(c => c)
         ?? Enumerable.Empty<string>();
 
-    private IEnumerable<string> Sources =>
-        jobs?
-            .Select(j => j.Source)
-            .Distinct()
-            .OrderBy(s => s)
-        ?? Enumerable.Empty<string>();
-
     protected override async Task OnInitializedAsync()
     {
         jobs = await JobService.GetAllAsync();
+    }
+
+    private void FiltersChanged()
+    {
+        StateHasChanged();
     }
 
     private void OpenDeleteDialog(JobApplication job)

@@ -21,9 +21,9 @@ export function createStatusChart(canvasId, data) {
     try { el._chartInstance.destroy(); } catch { }
   }
 
-  const labels = data.map((_, i) => `Item ${i + 1}`);
+  const labels = ['Applied', 'Interview', 'Offer', 'Rejected', 'Ghost'];
   const backgroundColors = [
-    '#4CAF50', '#F44336', '#FFC107', '#2196F3', '#9C27B0', '#00BCD4', '#8BC34A'
+    '#38bdf8', '#a78bfa', '#22c55e', '#ef4444', '#f59e0b'
   ];
 
   el._chartInstance = new Chart(ctx, {
@@ -37,7 +37,15 @@ export function createStatusChart(canvasId, data) {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: '#cbd5e1',
+            font: { family: 'Inter, Segoe UI, sans-serif' }
+          }
+        }
+      }
     }
   });
 }

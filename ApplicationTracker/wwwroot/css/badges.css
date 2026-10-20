@@ -29,3 +29,11 @@
     background: rgba(56,189,248,.2);
     color: #38bdf8;
 }
+
+.status-badge, .risk-badge { display: inline-flex; align-items: center; padding: .3rem .6rem; border-radius: 999px; font-size: .75rem; font-weight: 700; }
+.status-applied { background: rgba(148,163,184,.14); color: #cbd5e1; }
+.status-interview { background: var(--info-bg); color: var(--info); }
+.status-offer { background: var(--success-bg); color: #86efac; }
+.status-rejected, .risk-high { background: var(--danger-bg); color: #fca5a5; }
+.status-default, .risk-low { background: var(--ghost-bg); color: #cbd5e1; }
+.risk-warning { background: var(--warning-bg); color: #fcd34d; }

@@ -69,22 +69,26 @@ else
     <EditForm Model="job"
               FormName="EditJobForm"
               OnValidSubmit="Save">
+        <DataAnnotationsValidator />
 
         <div>
             <label>Firma</label>
             <InputText @bind-Value="job.Company" />
+            <ValidationMessage For="@(() => job.Company)" />
         </div>
 
 
         <div>
             <label>Stanowisko</label>
             <InputText @bind-Value="job.Position" />
+            <ValidationMessage For="@(() => job.Position)" />
         </div>
 
 
         <div>
             <label>Lokalizacja</label>
             <InputText @bind-Value="job.Location" />
+            <ValidationMessage For="@(() => job.Location)" />
         </div>
 
 
@@ -103,16 +107,10 @@ else
 
 
         <div>
-            <label>Widełki od</label>
+            <label>Widełki</label>
 
-            <InputNumber @bind-Value="job.SalaryFrom" />
-        </div>
-
-
-        <div>
-            <label>Widełki do</label>
-
-            <InputNumber @bind-Value="job.SalaryTo" />
+            <InputText @bind-Value="job.SalaryRange"
+                       placeholder="np. 10 000–14 000 PLN" />
         </div>
 
 
@@ -120,12 +118,8 @@ else
             <label>Link</label>
 
             <InputText @bind-Value="job.Url" />
+            <ValidationMessage For="@(() => job.Url)" />
         </div>
-        <div>
-            <label>ID ogłoszenia</label>
-            <InputText @bind-Value="job.ExternalJobId" />
-        </div>
-
 
         <div>
             <label>Notatki</label>

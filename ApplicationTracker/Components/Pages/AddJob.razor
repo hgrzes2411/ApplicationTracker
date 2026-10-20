@@ -8,77 +8,102 @@
 
 <PageTitle>Dodaj aplikację</PageTitle>
 
-<h1>Dodaj aplikację</h1>
+<div class="page-header">
+    <h1 class="page-title">Dodaj aplikację</h1>
+</div>
 
-<EditForm Model="job" FormName="AddJobForm" OnValidSubmit="SaveJob">
+<EditForm class="form-card" Model="job" FormName="AddJobForm" OnValidSubmit="SaveJob">
+    <DataAnnotationsValidator />
 
-    <div>
+    <div class="form-field">
         <label>Firma</label>
         <InputText @bind-Value="job.Company" />
+        <ValidationMessage For="@(() => job.Company)" />
     </div>
 
-    <div>
+    <div class="form-field">
         <label>Stanowisko</label>
         <InputText @bind-Value="job.Position" />
+        <ValidationMessage For="@(() => job.Position)" />
     </div>
 
-    <div>
+    <div class="form-field">
         <label>Lokalizacja</label>
         <InputText @bind-Value="job.Location" />
+        <ValidationMessage For="@(() => job.Location)" />
     </div>
 
-    <div>
+    <div class="form-field">
         <label>Tryb pracy</label>
-        <InputSelect @bind-Value="job.WorkMode">
+        <InputSelect @bind-Value="selectedWorkMode">
+            <option value="">-- Wybierz Tryb Pracy--</option>
             @foreach (var mode in Enum.GetValues<WorkMode>())
             {
                 <option value="@mode">@mode</option>
             }
         </InputSelect>
+        @if (!string.IsNullOrEmpty(workModeValidationMessage))
+        {
+            <div class="validation-message">@workModeValidationMessage</div>
+        }
     </div>
 
-    <div>
-        <label>Od wynagrodzenia</label>
-        <InputNumber @bind-Value="job.SalaryFrom" />
+    <div class="form-field">
+        <label>Widełki</label>
+        <InputText @bind-Value="job.SalaryRange" placeholder="np. 10 000–14 000 PLN" />
     </div>
 
-    <div>
-        <label>Do wynagrodzenia</label>
-        <InputNumber @bind-Value="job.SalaryTo" />
-    </div>
-
-    <div>
+    <div class="form-field">
         <label>Link</label>
         <InputText @bind-Value="job.Url" />
+        <ValidationMessage For="@(() => job.Url)" />
     </div>
-    <div>
-        <label>ID ogłoszenia</label>
-        <InputText @bind-Value="job.ExternalJobId" />
-    </div>
-
-    <div>
+    <div class="form-field form-field-wide">
         <label>Notatki</label>
         <InputTextArea @bind-Value="job.Notes" />
     </div>
 
-    <button type="submit">
+    <button class="btn btn-primary" type="submit">
         Zapisz
     </button>
 
 </EditForm>
 
+@if (showSuccessMessage)
+{
+    <div class="success-notification" role="status" aria-live="polite">
+        <div class="success-notification-icon" aria-hidden="true">✓</div>
+        <div>
+            <strong>Aplikacja została dodana</strong>
+            <p>Ogłoszenie zostało zapisane na liście aplikacji.</p>
+        </div>
+        <button class="success-notification-close" type="button" aria-label="Zamknij komunikat" @onclick="DismissSuccessMessage">×</button>
+    </div>
+}
 
 @code {
 
     private JobApplication job = new()
     {
-        ApplicationDate = DateOnly.FromDateTime(DateTime.Today),
-        WorkMode = WorkMode.Remote
+        ApplicationDate = DateOnly.FromDateTime(DateTime.Today)
     };
+
+    private WorkMode? selectedWorkMode;
+    private string? workModeValidationMessage;
+    private bool showSuccessMessage;
 
 
     private async Task SaveJob()
     {
+        if (!selectedWorkMode.HasValue)
+        {
+            workModeValidationMessage = "Pole Tryb Pracy jest wymagane";
+            return;
+        }
+
+        workModeValidationMessage = null;
+        job.WorkMode = selectedWorkMode.Value;
+
         job.History.Add(new StatusHistory
         {
             Status = ApplicationStatus.Applied,
@@ -89,9 +114,16 @@
 
         job = new JobApplication
         {
-            ApplicationDate = DateOnly.FromDateTime(DateTime.Today),
-            WorkMode = WorkMode.Remote
+            ApplicationDate = DateOnly.FromDateTime(DateTime.Today)
         };
+
+        selectedWorkMode = null;
+        showSuccessMessage = true;
+    }
+
+    private void DismissSuccessMessage()
+    {
+        showSuccessMessage = false;
     }
 
 }

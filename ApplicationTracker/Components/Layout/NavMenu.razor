@@ -1,31 +1,23 @@
-﻿<nav>
+﻿<nav class="sidebar-nav" aria-label="Główna nawigacja">
+    <div class="brand-mark">
+        <span class="brand-icon"><i class="bi bi-briefcase-fill" aria-hidden="true"></i></span>
+        <span>Application<span class="brand-accent">Tracker</span></span>
+    </div>
 
+    <p class="nav-section-label">Workspace</p>
     <ul>
-
-        <li>
-            <NavLink href="/">
-                Home
-            </NavLink>
-        </li>
-
-        <li>
-            <NavLink href="/jobs">
-                Aplikacje
-            </NavLink>
-        </li>
-
-        <li>
-            <NavLink href="/jobs/add">
-                Dodaj aplikację
-            </NavLink>
-        </li>
-
-        <li>
-            <NavLink href="/dashboard">
-                Dashboard
-            </NavLink>
-        </li>
-
+        <li><NavLink href="/" Match="NavLinkMatch.All"><i class="bi bi-house-door" aria-hidden="true"></i><span>Start</span></NavLink></li>
+        <li><NavLink href="/dashboard"><i class="bi bi-grid-1x2" aria-hidden="true"></i><span>Dashboard</span></NavLink></li>
+        <li><NavLink href="/jobs"><i class="bi bi-kanban" aria-hidden="true"></i><span>Aplikacje</span></NavLink></li>
     </ul>
 
+    <p class="nav-section-label">Działania</p>
+    <ul>
+        <li><NavLink href="/jobs/add"><i class="bi bi-plus-circle" aria-hidden="true"></i><span>Dodaj aplikację</span></NavLink></li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <span>System online</span>
+    </div>
 </nav>

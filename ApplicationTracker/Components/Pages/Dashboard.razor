@@ -1,4 +1,5 @@
-﻿@page "/dashboard"
+﻿
+@page "/dashboard"
 
 @rendermode InteractiveServer
 
@@ -9,269 +10,115 @@
 
 @inject DashboardService DashboardService
 
-<PageTitle>Dashboard</PageTitle>
+<PageTitle>Dashboard | ApplicationTracker</PageTitle>
 
 <div class="dashboard-container">
 
     @if (dashboard == null)
     {
-        <LoadingSkeleton />
+        <div class="dashboard-loading">
+            <LoadingSkeleton />
+        </div>
     }
     else
     {
-
-        <DashboardSettingsPanel Settings="settings" />
-
-
-        @if(settings.ShowSummary)
-        {
-
-            <div class="dashboard-header">
-
+        <header class="dashboard-header dashboard-hero">
                 <div class="dashboard-title">
-
                     <h1>
-                        Application Tracker
+                        <span class="dashboard-brand-icon">🧑‍💻</span>
+                        ApplicationTracker
                     </h1>
 
                     <p class="dashboard-subtitle">
                         @dashboard.WelcomeMessage
                     </p>
-
                 </div>
-
-
-                <div class="dashboard-overview">
-
-                    <div>
-                        <span class="overview-number">
-                            @dashboard.Summary.TotalApplications
-                        </span>
-
-                        <span>
-                            aplikacji
-                        </span>
-                    </div>
-
-
-                    <div>
-                        <span class="overview-number">
-                            @dashboard.Summary.ActiveApplications
-                        </span>
-
-                        <span>
-                            aktywnych procesów
-                        </span>
-                    </div>
-
-
-                    <div>
-                        <span class="overview-number">
-                            @dashboard.Summary.OfferCount
-                        </span>
-
-                        <span>
-                            ofert
-                        </span>
-                    </div>
-
-
-                    <div>
-                        <span class="overview-number">
-                            @dashboard.Summary.GhostApplications
-                        </span>
-
-                        <span>
-                            ghost jobs
-                        </span>
-                    </div>
-
-                </div>
-
 
                 <div class="dashboard-updated">
+                    <span>Ostatnia aktualizacja</span>
+                    <strong>
+                        @dashboard.LastUpdated.ToString("dd.MM.yyyy HH:mm")
+                    </strong>
+                </div>
+            </header>
 
-                    Ostatnia aktualizacja:
-                    @dashboard.LastUpdated.ToString("dd.MM.yyyy HH:mm")
+            <section class="dashboard-kpi-grid"
+                     aria-label="Podsumowanie aplikacji">
 
+                <div class="dashboard-kpi">
+                    <StatCard Icon="📄"
+                              Title="Aplikacje łącznie"
+                              Value="@dashboard.Summary.TotalApplications.ToString()" />
                 </div>
 
-            </div>
+                <div class="dashboard-kpi dashboard-kpi-danger">
+                    <StatCard Icon="🚩"
+                              Title="Podejrzane ogłoszenia"
+                              Value="@dashboard.Summary.GhostApplications.ToString()" />
+                </div>
 
+                <div class="dashboard-kpi dashboard-kpi-success">
+                    <StatCard Icon="✅"
+                              Title="Oferty"
+                              Value="@dashboard.Summary.OfferCount.ToString()" />
+                </div>
+        </section>
 
-
-            <h2>Podsumowanie</h2>
-
-
-            <div class="dashboard-grid">
-
-                <StatCard Icon="📄"
-                          Title="Aplikacje"
-                          Value="@dashboard.Summary.TotalApplications.ToString()" />
-
-
-                <StatCard Icon="🟢"
-                          Title="Aktywne"
-                          Value="@dashboard.Summary.ActiveApplications.ToString()" />
-
-
-                <StatCard Icon="🤝"
-                          Title="Interview"
-                          Value="@dashboard.Summary.InterviewCount.ToString()" />
-
-
-                <StatCard Icon="🏆"
-                          Title="Oferty"
-                          Value="@dashboard.Summary.OfferCount.ToString()" />
-
-
-                <StatCard Icon="❌"
-                          Title="Odrzucone"
-                          Value="@dashboard.Summary.RejectedCount.ToString()" />
-
-
-                <StatCard Icon="👻"
-                          Title="Ghost Jobs"
-                          Value="@dashboard.Summary.GhostApplications.ToString()" />
-
-            </div>
-
-        }
-
-
-
-        @if(settings.ShowCharts)
-        {
-
+        <section class="dashboard-section">
             <DashboardRow>
+                <SuccessRate Model="@dashboard.SuccessRate" />
 
-
-                @if(settings.ShowSuccessRate &&
-                    dashboard.SuccessRate != null)
-                {
-                    <SuccessRate
-                        Model="@dashboard.SuccessRate" />
-                }
-
-
-                @if(dashboard.StatusChart != null)
-                {
-                    <StatusChart
-                        Data="@dashboard.StatusChart" />
-                }
-
-
+                <StatusChart Data="@dashboard.StatusChart" />
             </DashboardRow>
+        </section>
 
-
-
+        <section class="dashboard-section">
             <DashboardRow>
+                <RecruitmentFunnel
+                    Model="@dashboard.RecruitmentFunnel" />
 
-
-                @if(settings.ShowRecruitmentFunnel &&
-                    dashboard.RecruitmentFunnel != null)
-                {
-                    <RecruitmentFunnel
-                        Model="@dashboard.RecruitmentFunnel" />
-                }
-
-
-                @if(dashboard.Timeline != null)
-                {
-                    <RecruitmentTimeline
-                        Model="@dashboard.Timeline" />
-                }
-
-
+                <RecruitmentTimeline
+                    Model="@dashboard.Timeline" />
             </DashboardRow>
+        </section>
 
-        }
-
-
-
-        @if(settings.ShowResponseAnalytics ||
-            settings.ShowSourceAnalytics)
-        {
-
+        <section class="dashboard-section">
             <DashboardRow>
+                <ResponseAnalytics
+                    Model="@dashboard.ResponseAnalytics" />
 
-
-                @if(settings.ShowResponseAnalytics &&
-                    dashboard.ResponseAnalytics != null)
-                {
-                    <ResponseAnalytics
-                        Model="@dashboard.ResponseAnalytics" />
-                }
-
-
-                @if(settings.ShowSourceAnalytics &&
-                    dashboard.SourceAnalytics != null)
-                {
-                    <SourceAnalytics
-                        Model="@dashboard.SourceAnalytics" />
-                }
-
-
+                <SourceAnalytics
+                    Model="@dashboard.SourceAnalytics" />
             </DashboardRow>
+        </section>
 
-        }
-
-
-
-        @if(settings.ShowCompanyAnalytics &&
-            dashboard.CompanyAnalytics != null)
-        {
+        <section class="dashboard-section">
             <CompanyAnalytics
                 Model="@dashboard.CompanyAnalytics" />
-        }
+        </section>
 
-
-
-        @if(settings.ShowCompanyInsights &&
-            dashboard.CompanyInsights != null)
-        {
+        <section class="dashboard-section">
             <CompanyInsights
                 Model="@dashboard.CompanyInsights" />
-        }
+        </section>
 
-
-
-        @if(settings.ShowRecommendations &&
-            dashboard.Recommendations != null)
-        {
+        <section class="dashboard-section">
             <RecommendationTable
                 Model="@dashboard.Recommendations" />
-        }
+        </section>
 
-
-
-        @if(settings.ShowRecentActivity &&
-            dashboard.RecentActivity != null)
-        {
+        <section class="dashboard-section">
             <RecentActivity
                 Model="@dashboard.RecentActivity" />
-        }
-
-
+        </section>
     }
-
 </div>
 
-
-@code
-{
-
+@code {
     private DashboardModel? dashboard;
-
-
-    private DashboardSettings settings = new();
-
 
     protected override async Task OnInitializedAsync()
     {
-
         dashboard = await DashboardService.GetDashboardAsync();
-
     }
-
 }

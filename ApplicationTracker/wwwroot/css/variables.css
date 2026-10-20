@@ -4,28 +4,28 @@
     =========================== */
 
     --bg-main: #0f172a;
-    --bg-surface: #1b2435;
-    --bg-surface-light: #243044;
-    --bg-hover: #2d3b53;
+    --bg-surface: #1e293b;
+    --bg-surface-light: #26364b;
+    --bg-hover: #334155;
     /* ===========================
        BORDERS
     =========================== */
 
-    --border-color: #2f3b50;
-    --border-light: #3b4b66;
+    --border-color: #334155;
+    --border-light: #475569;
     /* ===========================
        TEXT
     =========================== */
 
-    --text-primary: #f8fafc;
+    --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
     /* ===========================
        PRIMARY COLORS
     =========================== */
 
-    --primary: #3b82f6;
-    --primary-hover: #2563eb;
+    --primary: #38bdf8;
+    --primary-hover: #0ea5e9;
     /* ===========================
        SUCCESS
     =========================== */
@@ -68,17 +68,17 @@
        BORDER RADIUS
     =========================== */
 
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 22px;
-    --radius-xl: 28px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
     /* ===========================
        SHADOWS
     =========================== */
 
-    --shadow-sm: 0 2px 8px rgba(0,0,0,.15);
-    --shadow-md: 0 8px 24px rgba(0,0,0,.25);
-    --shadow-lg: 0 16px 40px rgba(0,0,0,.35);
+    --shadow-sm: 0 2px 8px rgba(2, 6, 23, .2);
+    --shadow-md: 0 8px 24px rgba(2, 6, 23, .28);
+    --shadow-lg: 0 16px 40px rgba(2, 6, 23, .38);
     /* ===========================
        SPACING
     =========================== */
@@ -93,5 +93,5 @@
        ANIMATION
     =========================== */
 
-    --transition: .25s ease;
+    --transition: .2s ease;
 }
