@@ -56,9 +56,9 @@ namespace ApplicationTracker.Models
         public List<StatusHistory> History { get; set; } = [];
 
         public ApplicationStatus CurrentStatus =>
-     History.Any()
-         ? History.MaxBy(x => x.Date)!.Status
-         : ApplicationStatus.Applied;
+            History.Count > 0
+                ? History.OrderBy(x => x.Date).Last().Status
+                : ApplicationStatus.Applied;
 
         [Required(ErrorMessage = "Pole Link jest wymagane")]
         public string? Url { get; set; }

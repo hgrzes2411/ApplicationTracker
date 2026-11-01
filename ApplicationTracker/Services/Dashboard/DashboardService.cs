@@ -68,9 +68,9 @@ public class DashboardService
         var now = DateTime.Now;
 
         var welcomeMessage =
-            jobs.Any(j => j.Status == ApplicationStatus.Offer)
+            jobs.Any(j => j.CurrentStatus == ApplicationStatus.Offer)
                 ? "Świetna robota! Masz aktywne oferty pracy."
-                : jobs.Any(j => j.Status == ApplicationStatus.Interview)
+                : jobs.Any(j => j.CurrentStatus == ApplicationStatus.Interview)
                     ? "Masz aktywne procesy rekrutacyjne."
                     : "Powodzenia w kolejnych aplikacjach!";
 

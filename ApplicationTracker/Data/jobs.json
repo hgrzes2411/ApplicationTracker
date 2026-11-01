@@ -1,57 +1,67 @@
 [
   {
-    "Id": "e60c76d4-1d8e-477f-8798-0f81d0509da1",
-    "Company": "Netcompany",
-    "NormalizedCompany": "netcompany",
-    "Position": "Junior .NET Developer",
-    "Location": "Warszawa, Mokotów",
-    "WorkMode": 2,
-    "SalaryFrom": 6000,
-    "SalaryTo": 8000,
-    "SalaryRange": "6000–8000",
-    "ApplicationDate": "2026-07-17",
+    "Id": "5b1c0800-1198-4715-a3a3-9ac4ae196d34",
+    "Company": "AA",
+    "NormalizedCompany": "aa",
+    "Position": "AA",
+    "Location": "AA",
+    "WorkMode": 0,
+    "SalaryFrom": null,
+    "SalaryTo": null,
+    "SalaryRange": "AA",
+    "ApplicationDate": "2026-11-01",
     "Status": 0,
     "Source": null,
-    "ExternalJobId": "1",
+    "ExternalJobId": "961B6DD3EDE3",
     "History": [
       {
         "Status": 0,
-        "Date": "2026-07-17",
-        "Note": null
-      }
-    ],
-    "CurrentStatus": 0,
-    "Url": null,
-    "Notes": null
-  },
-  {
-    "Id": "f204f34d-6cc7-4fdc-bcc8-aaf60ae51831",
-    "Company": "Bakk",
-    "NormalizedCompany": "bakk",
-    "Position": "Programista C# .NET",
-    "Location": "Warszawa, Białołęka",
-    "WorkMode": 2,
-    "SalaryFrom": 6000,
-    "SalaryTo": 8000,
-    "SalaryRange": "6000–8000",
-    "ApplicationDate": "2026-07-20",
-    "Status": 0,
-    "Source": null,
-    "ExternalJobId": "2",
-    "History": [
-      {
-        "Status": 0,
-        "Date": "2026-07-20",
+        "Date": "2026-11-01",
         "Note": null
       },
       {
         "Status": 2,
-        "Date": "2026-07-29",
+        "Date": "2026-11-01",
         "Note": null
       }
     ],
     "CurrentStatus": 2,
-    "Url": null,
+    "Url": "AA",
+    "Notes": null
+  },
+  {
+    "Id": "b2576aeb-56c0-4bb4-b841-960dd7c4d8e4",
+    "Company": "AA",
+    "NormalizedCompany": "aa",
+    "Position": "AA",
+    "Location": "AA",
+    "WorkMode": 0,
+    "SalaryFrom": null,
+    "SalaryTo": null,
+    "SalaryRange": "AA",
+    "ApplicationDate": "2026-11-01",
+    "Status": 0,
+    "Source": null,
+    "ExternalJobId": "961B6DD3EDE3",
+    "History": [
+      {
+        "Status": 0,
+        "Date": "2026-11-01",
+        "Note": null
+      },
+      {
+        "Status": 2,
+        "Date": "2026-11-01",
+        "Note": null
+      },
+      {
+        "Status": 1,
+        "Date": "2026-11-01",
+        "Note": null
+      }
+    ],
+    "CurrentStatus": 1,
+    "Url": "AA",
     "Notes": null
   }
 ]

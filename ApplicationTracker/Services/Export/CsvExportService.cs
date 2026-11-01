@@ -18,7 +18,7 @@ public class CsvExportService
             csv.Add(
     $"\"{job.Company}\"," +
     $"\"{job.Position}\"," +
-    $"\"{job.Status}\"," +
+    $"\"{job.CurrentStatus}\"," +
     $"\"{job.Source}\"," +
     $"\"{job.WorkMode}\"," +
     $"\"{job.ApplicationDate:yyyy-MM-dd}\""
