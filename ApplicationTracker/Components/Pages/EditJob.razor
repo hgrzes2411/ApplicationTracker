@@ -27,11 +27,43 @@ else
             @foreach (var item in job.History.OrderBy(x => x.Date))
             {
                 <li>
-                    <strong>@item.Date</strong> - @item.Status
-
-                    @if (!string.IsNullOrWhiteSpace(item.Note))
+                    @if (ReferenceEquals(editingStatus, item))
                     {
-                        <span> (@item.Note)</span>
+                        <InputSelect @bind-Value="editedStatus.Status">
+                            @foreach (var status in Enum.GetValues<ApplicationStatus>())
+                            {
+                                <option value="@status">@status</option>
+                            }
+                        </InputSelect>
+
+                        <InputDate @bind-Value="editedStatus.Date" />
+                        <InputText @bind-Value="editedStatus.Note"
+                                   placeholder="Notatka (opcjonalnie)" />
+
+                        <button type="button" @onclick="SaveStatusEdit">
+                            Zapisz status
+                        </button>
+                        <button type="button" @onclick="CancelStatusEdit">
+                            Anuluj
+                        </button>
+                    }
+                    else
+                    {
+                        <span><strong>@item.Date</strong> - @item.Status</span>
+
+                        @if (!string.IsNullOrWhiteSpace(item.Note))
+                        {
+                            <span> (@item.Note)</span>
+                        }
+
+                        <button type="button" @onclick="() => BeginStatusEdit(item)">
+                            Edytuj
+                        </button>
+                        <button type="button"
+                                disabled="@(job.History.Count <= 1)"
+                                @onclick="() => RemoveStatus(item)">
+                            Usuń
+                        </button>
                     }
                 </li>
             }
@@ -40,6 +72,11 @@ else
     else
     {
         <p>Brak historii.</p>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(statusValidationMessage))
+    {
+        <p class="validation-message">@statusValidationMessage</p>
     }
 
 
@@ -150,6 +187,10 @@ else
         Date = DateOnly.FromDateTime(DateTime.Today)
     };
 
+    private StatusHistory? editingStatus;
+    private StatusHistory editedStatus = new();
+    private string? statusValidationMessage;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -173,6 +214,8 @@ else
             Note = newStatus.Note
         });
 
+        statusValidationMessage = null;
+
         newStatus = new StatusHistory
         {
             Date = DateOnly.FromDateTime(DateTime.Today)
@@ -180,10 +223,64 @@ else
     }
 
 
+    private void BeginStatusEdit(StatusHistory status)
+    {
+        editingStatus = status;
+        editedStatus = new StatusHistory
+        {
+            Status = status.Status,
+            Date = status.Date,
+            Note = status.Note
+        };
+        statusValidationMessage = null;
+    }
+
+
+    private void SaveStatusEdit()
+    {
+        if (editingStatus == null)
+        {
+            return;
+        }
+
+        editingStatus.Status = editedStatus.Status;
+        editingStatus.Date = editedStatus.Date;
+        editingStatus.Note = editedStatus.Note;
+        editingStatus = null;
+        statusValidationMessage = null;
+    }
+
+
+    private void CancelStatusEdit()
+    {
+        editingStatus = null;
+        statusValidationMessage = null;
+    }
+
+
+    private void RemoveStatus(StatusHistory status)
+    {
+        if (job == null || job.History.Count <= 1)
+        {
+            statusValidationMessage = "Aplikacja musi mieć co najmniej jeden status.";
+            return;
+        }
+
+        job.History.Remove(status);
+        statusValidationMessage = null;
+    }
+
+
     private async Task Save()
     {
         if (job == null)
         {
+            return;
+        }
+
+        if (job.History.Count == 0)
+        {
+            statusValidationMessage = "Aplikacja musi mieć co najmniej jeden status.";
             return;
         }
 

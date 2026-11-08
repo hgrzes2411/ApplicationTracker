@@ -10,8 +10,6 @@
 .sidebar-nav a i { width: 1.1rem; text-align: center; }
 .sidebar-nav a:hover { color: var(--text-primary); background: rgba(148,163,184,.08); }
 .sidebar-nav a.active { color: var(--info); background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.18); }
-.sidebar-footer { display: flex; align-items: center; gap: .5rem; margin-top: auto; padding: 1rem .75rem .25rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: .75rem; }
-.status-dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 4px var(--success-bg); }
 .app-main { flex: 1; min-width: 0; }
 .content-shell { width: min(100%, 1600px); margin: 0 auto; padding: 2.5rem clamp(1.25rem, 3vw, 3rem); }
 @media (max-width: 700px) {
@@ -19,7 +17,7 @@
     .app-sidebar { width: 100%; border-right: 0; border-bottom: 1px solid var(--border-color); }
     .sidebar-nav { min-height: auto; padding: .75rem; }
     .brand-mark { padding: .35rem .5rem 1rem; }
-    .nav-section-label, .sidebar-footer { display: none; }
+    .nav-section-label { display: none; }
     .sidebar-nav ul { display: flex; overflow-x: auto; }
     .sidebar-nav a { white-space: nowrap; }
     .content-shell { padding: 1.5rem 1rem; }

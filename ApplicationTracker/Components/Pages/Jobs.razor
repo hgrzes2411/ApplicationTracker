@@ -131,6 +131,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         jobs = await JobService.GetAllAsync();
+        GhostAnalysisCache.AnalyzeAll(jobs);
     }
 
     private void FiltersChanged()
@@ -158,6 +159,7 @@ else
         await JobService.DeleteAsync(jobToDelete.Id);
 
         jobs = await JobService.GetAllAsync();
+        GhostAnalysisCache.AnalyzeAll(jobs);
 
         showDeleteDialog = false;
         jobToDelete = null;

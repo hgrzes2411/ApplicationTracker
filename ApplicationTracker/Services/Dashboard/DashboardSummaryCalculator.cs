@@ -41,7 +41,7 @@ public class DashboardSummaryCalculator
                 x.CurrentStatus == ApplicationStatus.Rejected),
 
             GhostApplications = analyses.Count(x =>
-                x.IsGhost)
+                x.Score > 0)
         };
     }
 }
