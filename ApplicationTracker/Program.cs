@@ -1,16 +1,16 @@
-using ApplicationTracker.Components;
-using ApplicationTracker.Services;
-using ApplicationTracker.Services.Charts;
+using ApplicationTracker.Data;
 using ApplicationTracker.Services.Dashboard;
+using ApplicationTracker.Services.Dashboard.Calculators;
 using ApplicationTracker.Services.Export;
 using ApplicationTracker.Services.GhostDetection;
 using ApplicationTracker.Services.GhostDetection.Rules;
-using ApplicationTracker.Services.Jobs;
-using ApplicationTracker.Services.Statistics;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<JsonRepository>();
-builder.Services.AddSingleton<JobService>();
+builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationTracker")));
+builder.Services.AddScoped<JobService>();
 builder.Services.AddSingleton<GhostJobAnalyzer>();
 builder.Services.AddSingleton<GhostDetector>();
 builder.Services.AddSingleton<IGhostRule, CompanyHistoryRule>();
@@ -24,7 +24,6 @@ builder.Services.AddScoped<RecommendationCalculator>();
 builder.Services.AddScoped<ResponseAnalyticsCalculator>();
 builder.Services.AddScoped<RecentActivityCalculator>();
 builder.Services.AddScoped<StatusChartCalculator>();
-builder.Services.AddScoped<ChartService>();
 builder.Services.AddScoped<DashboardSummaryCalculator>();
 builder.Services.AddScoped<SuccessRateCalculator>();
 builder.Services.AddScoped<RecruitmentFunnelCalculator>();
@@ -35,12 +34,13 @@ builder.Services.AddScoped<CsvExportService>();
 builder.Services.AddScoped<JobFilteringService>();
 builder.Services.AddScoped<GhostAnalysisCacheService>();
 
-
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -51,11 +51,11 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
+app.UseRouting();
 app.UseAntiforgery();
-
-app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

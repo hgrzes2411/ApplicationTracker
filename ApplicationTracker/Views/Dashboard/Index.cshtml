@@ -1,0 +1,115 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var dashboard = Model.Data;
+}
+
+<div class="dashboard-container">
+    <header class="dashboard-hero">
+        <div class="dashboard-title">
+            <h1><span class="dashboard-brand-icon">🧑‍💻</span> ApplicationTracker</h1>
+            <p class="dashboard-subtitle">@dashboard.WelcomeMessage</p>
+        </div>
+        <div class="dashboard-updated">
+            <span>Ostatnia aktualizacja</span>
+            <strong>@dashboard.LastUpdated.ToString("dd.MM.yyyy HH:mm")</strong>
+        </div>
+    </header>
+
+    <section class="dashboard-kpi-grid" aria-label="Podsumowanie aplikacji">
+        <div class="dashboard-kpi"><span class="eyebrow">📄 Aplikacje łącznie</span><strong class="dashboard-kpi-value">@dashboard.Summary.TotalApplications</strong></div>
+        <div class="dashboard-kpi dashboard-kpi-danger"><span class="eyebrow">🚩 Podejrzane ogłoszenia</span><strong class="dashboard-kpi-value">@dashboard.Summary.GhostApplications</strong></div>
+        <div class="dashboard-kpi dashboard-kpi-success"><span class="eyebrow">✅ Oferty</span><strong class="dashboard-kpi-value">@dashboard.Summary.OfferCount</strong></div>
+    </section>
+
+    <section class="dashboard-row dashboard-section">
+        <article class="section-card">
+            <h2>🎯 Skuteczność rekrutacji</h2>
+            <div class="success-rate-value">@dashboard.SuccessRate.SuccessRate.ToString("F1")%</div>
+            <p>Aplikacje zakończone ofertą</p>
+            <div class="dashboard-stat-grid">
+                <div><strong>@dashboard.SuccessRate.TotalApplications</strong><span>Wszystkie aplikacje</span></div>
+                <div><strong>@dashboard.SuccessRate.Offers</strong><span>Oferty</span></div>
+                <div><strong>@dashboard.SuccessRate.Interviews</strong><span>Rozmowy</span></div>
+            </div>
+        </article>
+        <article class="section-card">
+            <h2>Statusy aplikacji</h2>
+            <div class="dashboard-stat-grid">
+                <div><strong>@dashboard.StatusChart.Applied</strong><span>Wysłane</span></div>
+                <div><strong>@dashboard.StatusChart.Interview</strong><span>Rozmowy</span></div>
+                <div><strong>@dashboard.StatusChart.Offer</strong><span>Oferty</span></div>
+                <div><strong>@dashboard.StatusChart.Rejected</strong><span>Odrzucone</span></div>
+            </div>
+        </article>
+    </section>
+
+    <section class="dashboard-row dashboard-section">
+        <article class="section-card">
+            <h2>Lejek rekrutacyjny</h2>
+            <div class="dashboard-stat-grid">
+                <div><strong>@dashboard.RecruitmentFunnel.Applications</strong><span>Aplikacje</span></div>
+                <div><strong>@dashboard.RecruitmentFunnel.Responses</strong><span>Odpowiedzi</span></div>
+                <div><strong>@dashboard.RecruitmentFunnel.Interviews</strong><span>Rozmowy</span></div>
+                <div><strong>@dashboard.RecruitmentFunnel.Offers</strong><span>Oferty</span></div>
+            </div>
+        </article>
+        <article class="section-card">
+            <h2>Źródła aplikacji</h2>
+            @if (dashboard.SourceAnalytics.Sources.Any())
+            {
+                <ul class="dashboard-list">
+                @foreach (var source in dashboard.SourceAnalytics.Sources)
+                {
+                    <li><span>@source.Source</span><strong>@source.Applications</strong></li>
+                }
+                </ul>
+            }
+            else { <p>Brak danych.</p> }
+        </article>
+    </section>
+
+    <section class="section-card dashboard-section">
+        <h2>Najważniejsze firmy</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Firma</th><th>Aplikacje</th><th>Rozmowy</th><th>Oferty</th><th>Średni Ghost Score</th></tr></thead>
+                <tbody>
+                @foreach (var company in dashboard.CompanyAnalytics.TopCompanies)
+                {
+                    <tr><td>@company.Company</td><td>@company.Applications</td><td>@company.InterviewCount</td><td>@company.OfferCount</td><td>@company.AverageGhostScore.ToString("F1")</td></tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="dashboard-row dashboard-section">
+        <article class="section-card">
+            <h2>Rekomendacje</h2>
+            @if (dashboard.Recommendations.Items.Any())
+            {
+                <ul class="dashboard-list">
+                @foreach (var item in dashboard.Recommendations.Items)
+                {
+                    <li><span><strong>@item.Company</strong><br />@item.Message</span><span class="badge badge-warning">@item.GhostScore</span></li>
+                }
+                </ul>
+            }
+            else { <p>Brak rekomendacji.</p> }
+        </article>
+        <article class="section-card">
+            <h2>Ostatnia aktywność</h2>
+            @if (dashboard.RecentActivity.Any())
+            {
+                <ul class="dashboard-list">
+                @foreach (var item in dashboard.RecentActivity.Take(8))
+                {
+                    <li><span>@item.Company — @item.Status</span><small>@item.Date.ToString("dd.MM.yyyy")</small></li>
+                }
+                </ul>
+            }
+            else { <p>Brak aktywności.</p> }
+        </article>
+    </section>
+</div>

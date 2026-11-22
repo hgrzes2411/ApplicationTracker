@@ -1,0 +1,39 @@
+@model JobApplicationFormViewModel
+@{
+    ViewData["Title"] = "Edytuj aplikację";
+}
+
+<h1>Edytuj aplikację</h1>
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="form-card">
+    <partial name="_Form" model="Model" />
+</form>
+
+@if (Model.History.Any())
+{
+    <h2>Historia statusów</h2>
+    <ul>
+    @foreach (var history in Model.History.OrderBy(item => item.Date))
+    {
+        <li>@history.Date - @history.Status @history.Note</li>
+    }
+    </ul>
+}
+
+<section class="section-card">
+    <h2>Dodaj status</h2>
+    <form asp-action="AddStatus" asp-route-id="@Model.Id" method="post" class="form-card">
+        <div class="form-field">
+            <label for="Status">Status</label>
+            <select id="Status" name="Status" asp-items="Html.GetEnumSelectList<ApplicationStatus>()"></select>
+        </div>
+        <div class="form-field">
+            <label for="Date">Data</label>
+            <input id="Date" name="Date" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-field form-field-wide">
+            <label for="Note">Notatka</label>
+            <textarea id="Note" name="Note"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Dodaj status</button>
+    </form>
+</section>

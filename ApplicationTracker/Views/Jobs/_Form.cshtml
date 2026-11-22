@@ -1,0 +1,60 @@
+@model JobApplicationFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="validation-message form-field-wide"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="form-field">
+    <label asp-for="Company"></label>
+    <input asp-for="Company" />
+    <span asp-validation-for="Company" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="Position"></label>
+    <input asp-for="Position" />
+    <span asp-validation-for="Position" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="Location"></label>
+    <input asp-for="Location" />
+    <span asp-validation-for="Location" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="WorkMode"></label>
+    <select asp-for="WorkMode" asp-items="Html.GetEnumSelectList<WorkMode>()">
+        <option value="">Wybierz tryb pracy</option>
+    </select>
+    <span asp-validation-for="WorkMode" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="SalaryFrom"></label>
+    <input asp-for="SalaryFrom" />
+    <span asp-validation-for="SalaryFrom" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="SalaryTo"></label>
+    <input asp-for="SalaryTo" />
+    <span asp-validation-for="SalaryTo" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="ApplicationDate"></label>
+    <input asp-for="ApplicationDate" />
+    <span asp-validation-for="ApplicationDate" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="Source"></label>
+    <input asp-for="Source" />
+    <span asp-validation-for="Source" class="validation-message"></span>
+</div>
+<div class="form-field">
+    <label asp-for="Url"></label>
+    <input asp-for="Url" />
+    <span asp-validation-for="Url" class="validation-message"></span>
+</div>
+<div class="form-field form-field-wide">
+    <label asp-for="Notes"></label>
+    <textarea asp-for="Notes"></textarea>
+    <span asp-validation-for="Notes" class="validation-message"></span>
+</div>
+
+<button class="btn btn-primary" type="submit">Zapisz</button>
+<a class="btn" asp-action="Index">Anuluj</a>

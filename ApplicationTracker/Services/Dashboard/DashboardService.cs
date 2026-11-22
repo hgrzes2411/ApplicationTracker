@@ -1,6 +1,7 @@
 ﻿using ApplicationTracker.Models;
 using ApplicationTracker.Models.Dashboard;
-using ApplicationTracker.Services.Jobs;
+using ApplicationTracker.Models.Dashboard.Models;
+using ApplicationTracker.Services.Dashboard.Calculators;
 
 namespace ApplicationTracker.Services.Dashboard;
 

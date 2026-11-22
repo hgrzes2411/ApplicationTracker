@@ -1,0 +1,9 @@
+@model JobApplicationFormViewModel
+@{
+    ViewData["Title"] = "Dodaj aplikację";
+}
+
+<h1>Dodaj aplikację</h1>
+<form asp-action="Create" method="post" class="form-card">
+    <partial name="_Form" model="Model" />
+</form>

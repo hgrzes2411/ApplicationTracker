@@ -1,0 +1,86 @@
+@model JobsIndexViewModel
+@{
+    ViewData["Title"] = "Aplikacje";
+}
+
+<div class="page-header page-header-row">
+    <h1 class="page-title">Moje aplikacje</h1>
+    <a class="btn btn-primary" asp-action="Create">Dodaj aplikację</a>
+</div>
+
+<form method="get" class="filters-panel">
+    <input name="SearchText" value="@Model.Filter.SearchText" placeholder="Szukaj firmy lub stanowiska" />
+    <select name="Status">
+        <option value="">Wszystkie statusy</option>
+        @foreach (var status in Enum.GetValues<ApplicationStatus>())
+        {
+            <option value="@status" selected="@(Model.Filter.Status == status)">@status</option>
+        }
+    </select>
+    <select name="Company">
+        <option value="">Wszystkie firmy</option>
+        @foreach (var company in Model.Companies)
+        {
+            <option value="@company" selected="@(Model.Filter.Company == company)">@company</option>
+        }
+    </select>
+    <select name="SortOption">
+        @foreach (var option in Enum.GetValues<JobSortOption>())
+        {
+            <option value="@option" selected="@(Model.Filter.SortOption == option)">@option</option>
+        }
+    </select>
+    <button class="btn btn-primary" type="submit">Filtruj</button>
+    <a class="btn btn-secondary" asp-action="Index">Wyczyść</a>
+    <a class="btn btn-secondary" asp-action="Export">Eksportuj CSV</a>
+</form>
+
+@if (!Model.Jobs.Any())
+{
+    <section class="welcome-panel">
+        <p class="eyebrow">Workspace</p>
+        <h2>Brak aplikacji</h2>
+        <p>Dodaj pierwszą aplikację, aby rozpocząć śledzenie rekrutacji.</p>
+        <a class="btn btn-primary" asp-action="Create">Dodaj aplikację</a>
+    </section>
+}
+else
+{
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Firma</th>
+                    <th>Stanowisko</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Tryb</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var job in Model.Jobs)
+            {
+                var analysis = Model.GhostAnalyses.TryGetValue(job.Id, out var result)
+                    ? result
+                    : new GhostAnalysisResult();
+                <tr>
+                    <td>@job.Company</td>
+                    <td>@job.Position</td>
+                    <td>@job.ApplicationDate.ToString("dd.MM.yyyy")</td>
+                    <td><span class="status-badge status-@job.CurrentStatus.ToString().ToLowerInvariant()">@job.CurrentStatus</span></td>
+                    <td>@job.WorkMode</td>
+                    <td><span class="risk-badge risk-@analysis.RiskLevel.ToString().ToLowerInvariant()">@analysis.Score</span></td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@job.Id">Szczegóły</a>
+                        <span aria-hidden="true"> · </span>
+                        <a asp-action="Edit" asp-route-id="@job.Id">Edytuj</a>
+                        <span aria-hidden="true"> · </span>
+                        <a asp-action="Delete" asp-route-id="@job.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

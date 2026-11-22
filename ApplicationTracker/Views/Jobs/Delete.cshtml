@@ -1,0 +1,13 @@
+@model JobApplication
+@{
+    ViewData["Title"] = "Usuń aplikację";
+}
+
+<h1>Usuń aplikację</h1>
+<section class="section-card">
+    <p>Czy na pewno usunąć aplikację dla firmy <strong>@Model.Company</strong> na stanowisko <strong>@Model.Position</strong>?</p>
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        <button class="btn btn-primary" type="submit">Usuń</button>
+        <a class="btn btn-secondary" asp-action="Index">Anuluj</a>
+    </form>
+</section>
