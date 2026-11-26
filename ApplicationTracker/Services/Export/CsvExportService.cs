@@ -16,12 +16,7 @@ public class CsvExportService
         foreach (var job in jobs)
         {
             csv.Add(
-    $"\"{job.Company}\"," +
-    $"\"{job.Position}\"," +
-    $"\"{job.CurrentStatus}\"," +
-    $"\"{job.Source}\"," +
-    $"\"{job.WorkMode}\"," +
-    $"\"{job.ApplicationDate:yyyy-MM-dd}\""
+    $"{Escape(job.Company)},{Escape(job.Position)},{Escape(job.CurrentStatus.ToString())},{Escape(job.Source)},{Escape(job.WorkMode.ToString())},{Escape(job.ApplicationDate.ToString("yyyy-MM-dd"))}"
 );
         }
 
@@ -30,5 +25,10 @@ public class CsvExportService
             Environment.NewLine,
             csv
         );
+    }
+
+    private static string Escape(string? value)
+    {
+        return $"\"{value?.Replace("\"", "\"\"")}\"";
     }
 }
